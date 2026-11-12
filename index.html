@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CROWNLESS — Bold Fashion for Women &amp; Men | Nigeria</title>
+<title>CROWNLESS — Bold Fashion for Men | Nigeria</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,7 +24,6 @@
     </div>
   </div>
   <nav class="menu-panel" id="menuPanel">
-    <a href="#shop" data-filter-link="women">Women</a>
     <a href="#shop" data-filter-link="men">Men</a>
     <a href="#new">New Arrivals</a>
     <a href="#sale">Sale</a>
@@ -35,15 +34,14 @@
 </header>
 
 <nav class="cat-tabs">
-  <a href="#shop" class="cat-tab active" data-filter-link="women" data-tab="women">Women</a>
-  <a href="#shop" class="cat-tab" data-filter-link="men" data-tab="men">Men</a>
+  <a href="#shop" class="cat-tab active" data-filter-link="men" data-tab="men">Men</a>
   <a href="#new" class="cat-tab">New In<span class="pill-new">NEW</span></a>
   <a href="#sale" class="cat-tab">Sale</a>
 </nav>
 
 <div class="search-pill">
   <label class="pill-inner">🔍
-    <input type="search" id="searchInput" placeholder="Search dresses, jeans, hoodies…" aria-label="Search products">
+    <input type="search" id="searchInput" placeholder="Search jeans, hoodies, tees…" aria-label="Search products">
   </label>
 </div>
 
@@ -53,11 +51,11 @@
 </a>
 
 <section class="hero-photo">
-  <img src="https://images.pexels.com/photos/9509656/pexels-photo-9509656.jpeg?auto=compress&cs=tinysrgb&w=1200&h=1500&fit=crop" alt="CROWNLESS new season fashion">
+  <img src="https://images.pexels.com/photos/1983926/pexels-photo-1983926.jpeg?auto=compress&cs=tinysrgb&w=1200&h=1500&fit=crop" alt="CROWNLESS new season menswear">
   <div class="hero-overlay">
     <span class="kicker">New Season Drop</span>
     <h1>Royalty Needs<br>No Crown</h1>
-    <p>Bold fashion for women &amp; men — priced in naira, delivered across Nigeria.</p>
+    <p>Bold fashion for men — priced in naira, delivered across Nigeria.</p>
     <a class="shop-link" href="#shop">Shop Now</a>
   </div>
 </section>
@@ -65,9 +63,9 @@
 <main class="wrap">
 
   <div class="tiles">
-    <a class="tile" href="#shop" data-filter-link="women">
-      <img src="https://images.pexels.com/photos/29476248/pexels-photo-29476248/free-photo-of-elegant-woman-in-black-dress-outdoors.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop" alt="Women">
-      <strong>Women</strong>
+    <a class="tile" href="#new">
+      <img src="https://images.pexels.com/photos/6311150/pexels-photo-6311150.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop" alt="New In">
+      <strong>New In</strong>
     </a>
     <a class="tile" href="#shop" data-filter-link="men">
       <img src="https://images.pexels.com/photos/18593737/pexels-photo-18593737/free-photo-of-portrait-of-african-man-wearing-a-pink-jumper.jpeg?auto=compress&cs=tinysrgb&w=800&h=533&fit=crop" alt="Men">
@@ -82,11 +80,6 @@
 
   <section class="section" id="shop">
     <h2>Shop <span class="accent">All</span></h2>
-    <div class="option-row" style="margin-bottom:16px;">
-      <button class="option-btn selected" data-filter-btn="all">All</button>
-      <button class="option-btn" data-filter-btn="women">Women</button>
-      <button class="option-btn" data-filter-btn="men">Men</button>
-    </div>
     <div class="grid" id="shopGrid"></div>
   </section>
 
@@ -101,11 +94,10 @@
   <div class="footer-inner">
     <div>
       <h3>CROWN<span>LESS</span></h3>
-      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for women &amp; men in Nigeria. Pay securely with Paystack. Delivery across Nigeria.</p>
+      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for men in Nigeria. Pay securely with Paystack. Delivery across Nigeria.</p>
     </div>
     <div>
       <strong>Shop</strong>
-      <a href="#shop" data-filter-link="women">Women</a>
       <a href="#shop" data-filter-link="men">Men</a>
       <a href="#new">New Arrivals</a>
       <a href="#sale">Sale</a>
@@ -126,7 +118,7 @@
 <script src="products.js"></script>
 <script src="app.js"></script>
 <script>
-  var currentFilter = "all";
+  var currentFilter = "men";
   var currentQuery = "";
 
   function applyShop() {
@@ -187,15 +179,10 @@
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
-  renderGrid(document.getElementById("newGrid"), PRODUCTS.filter(function (p) { return p.badge === "New"; }));
-  renderGrid(document.getElementById("saleGrid"), PRODUCTS.filter(function (p) { return p.oldPrice; }));
+  renderGrid(document.getElementById("newGrid"), PRODUCTS.filter(function (p) { return p.badge === "New" && p.gender === "men"; }));
+  renderGrid(document.getElementById("saleGrid"), PRODUCTS.filter(function (p) { return p.oldPrice && p.gender === "men"; }));
 
-  // Arriving from another page, e.g. index.html#women
-  if (location.hash === "#women" || location.hash === "#men") {
-    setFilter(location.hash.slice(1));
-  } else {
-    applyShop();
-  }
+  applyShop();
 </script>
 </body>
 </html>
