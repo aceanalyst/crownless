@@ -3,7 +3,9 @@
 // Prices are in naira (NGN). Photos are free stock photos from Pexels (pexels.com),
 // matched to each sample product — swap in real product photos later.
 // Fields: id, name, gender, category, price, oldPrice (sale only),
-//         sizes, colours, badge ("New" / "Sale" / null), image
+//         sizes, colours, badge ("New" / "Sale" / null), image, gallery
+// Gallery rule: the SAME cloth in different pictures — photos from one
+// shoot of the same item, or closer crops of the product's own main photo.
 // ============================================================
 const PRODUCTS = [
   // ---------- WOMEN ----------
@@ -16,10 +18,10 @@ const PRODUCTS = [
     sizes: ["XS", "S", "M", "L", "XL"],
     colours: ["Black", "Red", "Emerald"],
     badge: "New",
-    image: "https://images.pexels.com/photos/26744719/pexels-photo-26744719/free-photo-of-woman-in-black-dress-posing-in-studio.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    image: "https://images.pexels.com/photos/29476233/pexels-photo-29476233/free-photo-of-elegant-woman-in-black-dress-and-sunglasses.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/29476233/pexels-photo-29476233/free-photo-of-elegant-woman-in-black-dress-and-sunglasses.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/30411976/pexels-photo-30411976/free-photo-of-elegant-woman-posing-in-minimalist-setting.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/29476248/pexels-photo-29476248/free-photo-of-elegant-woman-in-black-dress-outdoors.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+      "https://images.pexels.com/photos/29476246/pexels-photo-29476246/free-photo-of-elegant-woman-in-black-dress-outdoors.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
     ]
   },
   {
@@ -33,8 +35,8 @@ const PRODUCTS = [
     badge: null,
     image: "https://images.pexels.com/photos/4045705/pexels-photo-4045705.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/17309920/pexels-photo-17309920/free-photo-of-woman-posing-in-white-shirt-in-park.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/9488881/pexels-photo-9488881.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/4045705/pexels-photo-4045705.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/4045705/pexels-photo-4045705.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -46,10 +48,10 @@ const PRODUCTS = [
     sizes: ["S", "M", "L", "XL"],
     colours: ["Black", "Brown", "Cream"],
     badge: "New",
-    image: "https://images.pexels.com/photos/19534321/pexels-photo-19534321/free-photo-of-model-in-a-blue-skirt-and-high-heeled-boots-standing-on-the-stairs.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    image: "https://images.pexels.com/photos/19712693/pexels-photo-19712693/free-photo-of-smiling-woman-in-hat-jacket-and-skirt.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/4077936/pexels-photo-4077936.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/17793935/pexels-photo-17793935/free-photo-of-model-in-denim-skirt-and-model-in-denim-skirt-and-tank-top.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/19712692/pexels-photo-19712692/free-photo-of-elegant-woman-in-all-black-outfit-standing-on-a-pavement.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+      "https://images.pexels.com/photos/19712694/pexels-photo-19712694/free-photo-of-woman-in-hat-black-jacket-and-skirt-standing-on-pavement-by-house.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
     ]
   },
   {
@@ -63,8 +65,8 @@ const PRODUCTS = [
     badge: null,
     image: "https://images.pexels.com/photos/19804504/pexels-photo-19804504/free-photo-of-young-woman-in-a-satin-dress-posing-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/39424452/pexels-photo-39424452/free-photo-of-elegant-woman-posing-in-black-satin-dress.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/3746308/pexels-photo-3746308.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/19804504/pexels-photo-19804504/free-photo-of-young-woman-in-a-satin-dress-posing-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/19804504/pexels-photo-19804504/free-photo-of-young-woman-in-a-satin-dress-posing-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -79,8 +81,8 @@ const PRODUCTS = [
     badge: "Sale",
     image: "https://images.pexels.com/photos/39598425/pexels-photo-39598425/free-photo-of-portrait-of-smiling-woman-in-denim-jacket-at-night.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/33350891/pexels-photo-33350891/free-photo-of-stylish-woman-with-sunglasses-in-denim-jacket.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/1191486/pexels-photo-1191486.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/39598425/pexels-photo-39598425/free-photo-of-portrait-of-smiling-woman-in-denim-jacket-at-night.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/39598425/pexels-photo-39598425/free-photo-of-portrait-of-smiling-woman-in-denim-jacket-at-night.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -94,8 +96,8 @@ const PRODUCTS = [
     badge: null,
     image: "https://images.pexels.com/photos/29504841/pexels-photo-29504841/free-photo-of-stylish-woman-posing-in-denim-against-white-wooden-background.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/29193296/pexels-photo-29193296/free-photo-of-elegant-woman-posing-on-yellow-stool-in-studio-setting.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/33725092/pexels-photo-33725092/free-photo-of-stylish-young-woman-posing-on-urban-pavement.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/29504841/pexels-photo-29504841/free-photo-of-stylish-woman-posing-in-denim-against-white-wooden-background.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/29504841/pexels-photo-29504841/free-photo-of-stylish-woman-posing-in-denim-against-white-wooden-background.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
 
@@ -111,8 +113,8 @@ const PRODUCTS = [
     badge: "New",
     image: "https://images.pexels.com/photos/7236461/pexels-photo-7236461.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/1445333/pexels-photo-1445333.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/33971518/pexels-photo-33971518/free-photo-of-casual-portrait-of-man-in-black-cap-and-t-shirt.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/7236461/pexels-photo-7236461.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/7236461/pexels-photo-7236461.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -124,10 +126,10 @@ const PRODUCTS = [
     sizes: ["30", "32", "34", "36", "38"],
     colours: ["Black", "Khaki", "Olive"],
     badge: null,
-    image: "https://images.pexels.com/photos/18393526/pexels-photo-18393526/free-photo-of-young-man-posing-in-white-t-shirt-and-beige-cargo-sweatpants.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    image: "https://images.pexels.com/photos/17037281/pexels-photo-17037281/free-photo-of-casual-style-model-in-cargo-pants.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/17037281/pexels-photo-17037281/free-photo-of-casual-style-model-in-cargo-pants.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/17037283/pexels-photo-17037283/free-photo-of-casual-style-model-in-sunglasses.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/17037283/pexels-photo-17037283/free-photo-of-casual-style-model-in-sunglasses.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+      "https://images.pexels.com/photos/17037339/pexels-photo-17037339/free-photo-of-model-wearing-platform-boots-to-cargo-pants.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
     ]
   },
   {
@@ -156,8 +158,8 @@ const PRODUCTS = [
     badge: null,
     image: "https://images.pexels.com/photos/8601543/pexels-photo-8601543.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/7236438/pexels-photo-7236438.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/4091868/pexels-photo-4091868.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/8601543/pexels-photo-8601543.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/8601543/pexels-photo-8601543.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -172,8 +174,8 @@ const PRODUCTS = [
     badge: "Sale",
     image: "https://images.pexels.com/photos/10005224/pexels-photo-10005224.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/19426409/pexels-photo-19426409/free-photo-of-handsome-man-in-puffer-jacket.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/3949042/pexels-photo-3949042.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/10005224/pexels-photo-10005224.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/10005224/pexels-photo-10005224.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -187,8 +189,8 @@ const PRODUCTS = [
     badge: null,
     image: "https://images.pexels.com/photos/8498700/pexels-photo-8498700.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
     gallery: [
-      "https://images.pexels.com/photos/6787036/pexels-photo-6787036.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-      "https://images.pexels.com/photos/6311251/pexels-photo-6311251/free-photo-of-smiling-man-in-white-t-shirt-standing-in-studio.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+      "https://images.pexels.com/photos/8498700/pexels-photo-8498700.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/8498700/pexels-photo-8498700.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
   }
 ];
