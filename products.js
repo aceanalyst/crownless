@@ -16,7 +16,7 @@ const PRODUCTS = [
     sizes: ["XS", "S", "M", "L", "XL"],
     colours: ["Black", "Red", "Emerald"],
     badge: "New",
-    image: "https://images.pexels.com/photos/27251855/pexels-photo-27251855/free-photo-of-a-woman-with-red-hair-posing-in-front-of-a-building.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/26744719/pexels-photo-26744719/free-photo-of-woman-in-black-dress-posing-in-studio.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "w2",
@@ -27,7 +27,7 @@ const PRODUCTS = [
     sizes: ["26", "28", "30", "32", "34"],
     colours: ["Blue", "Black", "Light Wash"],
     badge: null,
-    image: "https://images.pexels.com/photos/17781161/pexels-photo-17781161/free-photo-of-woman-posing-on-white-background.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/4045705/pexels-photo-4045705.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "w3",
@@ -38,7 +38,7 @@ const PRODUCTS = [
     sizes: ["S", "M", "L", "XL"],
     colours: ["Black", "Brown", "Cream"],
     badge: "New",
-    image: "https://images.pexels.com/photos/1084641/pexels-photo-1084641.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/19534321/pexels-photo-19534321/free-photo-of-model-in-a-blue-skirt-and-high-heeled-boots-standing-on-the-stairs.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "w4",
@@ -49,7 +49,7 @@ const PRODUCTS = [
     sizes: ["XS", "S", "M", "L"],
     colours: ["Champagne", "Black", "Wine"],
     badge: null,
-    image: "https://images.pexels.com/photos/37728713/pexels-photo-37728713/free-photo-of-elegant-woman-in-white-satin-dress-posing.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/19804504/pexels-photo-19804504/free-photo-of-young-woman-in-a-satin-dress-posing-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "w5",
@@ -85,7 +85,7 @@ const PRODUCTS = [
     sizes: ["S", "M", "L", "XL", "XXL"],
     colours: ["Black", "White", "Grey"],
     badge: "New",
-    image: "https://images.pexels.com/photos/28185911/pexels-photo-28185911/free-photo-of-a-man-with-a-backpack-and-a-t-shirt-with-a-tiger-on-it.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/7236461/pexels-photo-7236461.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "m2",
@@ -96,7 +96,7 @@ const PRODUCTS = [
     sizes: ["30", "32", "34", "36", "38"],
     colours: ["Black", "Khaki", "Olive"],
     badge: null,
-    image: "https://images.pexels.com/photos/19751093/pexels-photo-19751093/free-photo-of-model-in-black-cargo-pants-and-a-graphite-shirt-with-white-buttons.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/18393526/pexels-photo-18393526/free-photo-of-young-man-posing-in-white-t-shirt-and-beige-cargo-sweatpants.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "m3",
@@ -107,7 +107,7 @@ const PRODUCTS = [
     sizes: ["M", "L", "XL", "XXL"],
     colours: ["Black", "Grey", "Navy"],
     badge: "New",
-    image: "https://images.pexels.com/photos/30257616/pexels-photo-30257616/free-photo-of-casual-urban-fashion-in-concrete-setting.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/6311150/pexels-photo-6311150.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "m4",
@@ -118,7 +118,7 @@ const PRODUCTS = [
     sizes: ["30", "32", "34", "36", "38"],
     colours: ["Blue", "Black"],
     badge: null,
-    image: "https://images.pexels.com/photos/11558500/pexels-photo-11558500.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/8601543/pexels-photo-8601543.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "m5",
@@ -130,7 +130,7 @@ const PRODUCTS = [
     sizes: ["M", "L", "XL", "XXL"],
     colours: ["Black", "Red"],
     badge: "Sale",
-    image: "https://images.pexels.com/photos/16430970/pexels-photo-16430970/free-photo-of-a-man-posing-in-a-winter-jacket.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/10005224/pexels-photo-10005224.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   },
   {
     id: "m6",
@@ -141,6 +141,6 @@ const PRODUCTS = [
     sizes: ["S", "M", "L", "XL", "XXL"],
     colours: ["Mixed", "White", "Black"],
     badge: null,
-    image: "https://images.pexels.com/photos/8217573/pexels-photo-8217573.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+    image: "https://images.pexels.com/photos/8498700/pexels-photo-8498700.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
   }
 ];
