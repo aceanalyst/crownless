@@ -8,27 +8,58 @@
 </head>
 <body>
 
-<header class="site-header">
+<div class="promo-bar">
+  <div class="promo-text"><strong>WELCOME OFFER!</strong><span>Up to 20% off selected styles — today only!</span></div>
+  <div class="promo-count" id="promoCount">--h:--m:--s</div>
+</div>
+
+<header class="site-header fn-header">
   <div class="header-inner">
     <a class="logo" href="index.html">CROWN<span>LESS</span></a>
-    <nav class="main-nav">
-      <a href="#shop" data-filter-link="women">Women</a>
-      <a href="#shop" data-filter-link="men">Men</a>
-      <a href="#new">New Arrivals</a>
-      <a href="#sale">Sale</a>
-    </nav>
     <div class="header-actions">
-      <span class="search-box"><input type="search" id="searchInput" placeholder="Search products…" aria-label="Search products"></span>
-      <span class="account-links"><a href="login.html">Login</a></span>
-      <a class="cart-link" href="cart.html" aria-label="Cart">🛍️<span class="cart-count">0</span></a>
+      <a class="icon-btn" href="login.html" aria-label="Account">👤</a>
+      <a class="icon-btn" href="#sale" aria-label="Sale picks">❤️</a>
+      <a class="icon-btn cart-link" href="cart.html" aria-label="Cart">🛍️<span class="cart-count">0</span></a>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">☰</button>
     </div>
   </div>
+  <nav class="menu-panel" id="menuPanel">
+    <a href="#shop" data-filter-link="women">Women</a>
+    <a href="#shop" data-filter-link="men">Men</a>
+    <a href="#new">New Arrivals</a>
+    <a href="#sale">Sale</a>
+    <a href="login.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="cart.html">Cart</a>
+  </nav>
 </header>
 
-<section class="hero">
-  <h1>CROWN<span>LESS</span></h1>
-  <p>Royalty needs no crown. Bold streetwear and fashion for women &amp; men — made for Nigeria, priced in naira, delivered to your door.</p>
-  <a class="btn" href="#shop">Shop Now</a>
+<nav class="cat-tabs">
+  <a href="#shop" class="cat-tab active" data-filter-link="women" data-tab="women">Women</a>
+  <a href="#shop" class="cat-tab" data-filter-link="men" data-tab="men">Men</a>
+  <a href="#new" class="cat-tab">New In<span class="pill-new">NEW</span></a>
+  <a href="#sale" class="cat-tab">Sale</a>
+</nav>
+
+<div class="search-pill">
+  <label class="pill-inner">🔍
+    <input type="search" id="searchInput" placeholder="Search dresses, jeans, hoodies…" aria-label="Search products">
+  </label>
+</div>
+
+<a class="sale-strip" href="#sale">
+  <span>Sale — up to 20% off selected styles!</span>
+  <span class="strip-cta">Shop Now ›</span>
+</a>
+
+<section class="hero-photo">
+  <img src="https://images.pexels.com/photos/34372390/pexels-photo-34372390/free-photo-of-fashionable-woman-posing-in-urban-setting.jpeg?auto=compress&cs=tinysrgb&w=1200&h=1500&fit=crop" alt="CROWNLESS new season fashion">
+  <div class="hero-overlay">
+    <span class="kicker">New Season Drop</span>
+    <h1>Royalty Needs<br>No Crown</h1>
+    <p>Bold fashion for women &amp; men — priced in naira, delivered across Nigeria.</p>
+    <a class="shop-link" href="#shop">Shop Now</a>
+  </div>
 </section>
 
 <main class="wrap">
@@ -109,6 +140,9 @@
     document.querySelectorAll("[data-filter-btn]").forEach(function (btn) {
       btn.classList.toggle("selected", btn.getAttribute("data-filter-btn") === currentFilter);
     });
+    document.querySelectorAll("[data-tab]").forEach(function (tab) {
+      tab.classList.toggle("active", tab.getAttribute("data-tab") === currentFilter);
+    });
   }
 
   function setFilter(f) {
@@ -123,9 +157,35 @@
     link.addEventListener("click", function () { setFilter(link.getAttribute("data-filter-link")); });
   });
   document.getElementById("searchInput").addEventListener("input", function (e) {
+    var firstChar = currentQuery === "" && e.target.value !== "";
     currentQuery = e.target.value;
     applyShop();
+    if (firstChar) {
+      document.getElementById("shop").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   });
+
+  // Hamburger menu
+  var menuPanel = document.getElementById("menuPanel");
+  document.getElementById("menuBtn").addEventListener("click", function () {
+    menuPanel.classList.toggle("open");
+  });
+  menuPanel.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { menuPanel.classList.remove("open"); });
+  });
+
+  // Promo countdown to midnight
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function tickCountdown() {
+    var now = new Date();
+    var end = new Date(now);
+    end.setHours(24, 0, 0, 0);
+    var s = Math.max(0, Math.floor((end - now) / 1000));
+    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    document.getElementById("promoCount").textContent = pad(h) + "h:" + pad(m) + "m:" + pad(sec) + "s";
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
 
   renderGrid(document.getElementById("newGrid"), PRODUCTS.filter(function (p) { return p.badge === "New"; }));
   renderGrid(document.getElementById("saleGrid"), PRODUCTS.filter(function (p) { return p.oldPrice; }));
