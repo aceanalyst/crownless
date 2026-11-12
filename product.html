@@ -76,9 +76,20 @@
       ? ' <span class="old-price">' + formatPrice(product.oldPrice) + "</span>"
       : "";
 
+    var photos = [product.image].concat(product.gallery || []);
+    var slides = photos.map(function (src) {
+      return '<img src="' + src + '" alt="' + product.name + '">';
+    }).join("");
+    var dots = photos.map(function (_, i) {
+      return '<button class="dot' + (i === 0 ? " active" : "") + '" data-dot="' + i + '" type="button" aria-label="Photo ' + (i + 1) + '"></button>';
+    }).join("");
+
     root.innerHTML =
       '<div class="product-layout">' +
-        '<div class="product-photo"><span class="card-img-wrap"><img src="' + product.image + '" alt="' + product.name + '">' + badge + "</span></div>" +
+        '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery">' + slides + "</div>" + badge +
+          '<button class="g-arrow prev" id="gPrev" type="button" aria-label="Previous photo">‹</button>' +
+          '<button class="g-arrow next" id="gNext" type="button" aria-label="Next photo">›</button></div>' +
+          '<div class="gallery-dots">' + dots + "</div></div>" +
         '<div class="product-info">' +
           "<h1>" + product.name + "</h1>" +
           '<div class="card-meta">' + product.category + " · " + (product.gender === "women" ? "Women" : "Men") + "</div>" +
@@ -96,6 +107,30 @@
           '<div class="toast" id="toast">Added to cart ✔ &nbsp;<a href="cart.html" style="text-decoration:underline; font-weight:800;">View cart &amp; checkout</a></div>' +
         "</div>" +
       "</div>";
+
+    // Swipeable gallery: native swipe + arrows + dots
+    var galleryEl = document.getElementById("gallery");
+    var dotEls = document.querySelectorAll(".gallery-dots .dot");
+    function slideIndex() {
+      return Math.round(galleryEl.scrollLeft / galleryEl.clientWidth);
+    }
+    function markDots() {
+      var i = slideIndex();
+      dotEls.forEach(function (d, di) { d.classList.toggle("active", di === i); });
+    }
+    galleryEl.addEventListener("scroll", markDots, { passive: true });
+    document.getElementById("gPrev").addEventListener("click", function () {
+      galleryEl.scrollBy({ left: -galleryEl.clientWidth, behavior: "smooth" });
+    });
+    document.getElementById("gNext").addEventListener("click", function () {
+      galleryEl.scrollBy({ left: galleryEl.clientWidth, behavior: "smooth" });
+    });
+    dotEls.forEach(function (d) {
+      d.addEventListener("click", function () {
+        var i = parseInt(d.getAttribute("data-dot"), 10);
+        galleryEl.scrollTo({ left: i * galleryEl.clientWidth, behavior: "smooth" });
+      });
+    });
 
     function wireOptions(rowId, attr, set) {
       document.querySelectorAll("#" + rowId + " .option-btn").forEach(function (btn) {
