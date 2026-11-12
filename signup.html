@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — CROWNLESS</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html">CROWN<span>LESS</span></a>
+    <nav class="main-nav">
+      <a href="index.html#women">Women</a>
+      <a href="index.html#men">Men</a>
+      <a href="index.html#new">New Arrivals</a>
+      <a href="index.html#sale">Sale</a>
+    </nav>
+    <div class="header-actions">
+      <span class="account-links"><a href="login.html">Login</a></span>
+      <a class="cart-link" href="cart.html" aria-label="Cart">🛍️<span class="cart-count">0</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <form class="form-card" id="signupForm">
+    <h1>Create Account</h1>
+
+    <div class="notice">Accounts are coming soon — signup activates when Supabase is connected. You can still shop and check out as a guest.</div>
+
+    <label class="f-label" for="name">Full name</label>
+    <input class="f-input" id="name" type="text" required autocomplete="name">
+
+    <label class="f-label" for="email">Email</label>
+    <input class="f-input" id="email" type="email" required autocomplete="email">
+
+    <label class="f-label" for="password">Password</label>
+    <input class="f-input" id="password" type="password" required autocomplete="new-password">
+
+    <div style="margin-top:22px;">
+      <button class="btn btn-block" type="submit">Sign Up</button>
+    </div>
+
+    <div class="form-msg" id="formMsg">Accounts are not active yet — signup switches on when Supabase is connected. No account was created.</div>
+
+    <p class="form-alt">Already have an account? <a href="login.html">Login</a></p>
+  </form>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h3>CROWN<span>LESS</span></h3>
+      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for women &amp; men in Nigeria. Pay securely with Paystack. Delivery across Nigeria.</p>
+    </div>
+    <div>
+      <strong>Shop</strong>
+      <a href="index.html#women">Women</a>
+      <a href="index.html#men">Men</a>
+      <a href="index.html#new">New Arrivals</a>
+      <a href="index.html#sale">Sale</a>
+    </div>
+    <div>
+      <strong>Account</strong>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="cart.html">Cart</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 CROWNLESS · Nigeria · Prices in ₦ (NGN)</div>
+</footer>
+
+<a class="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat with CROWNLESS on WhatsApp">💬</a>
+
+<script src="config.js"></script>
+<script src="products.js"></script>
+<script src="app.js"></script>
+<script>
+  // Front-end only for now — no fake backend. Accounts activate
+  // when Supabase Auth is connected.
+  document.getElementById("signupForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    document.getElementById("formMsg").classList.add("show");
+  });
+</script>
+</body>
+</html>

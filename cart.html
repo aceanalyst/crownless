@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart &amp; Checkout — CROWNLESS</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html">CROWN<span>LESS</span></a>
+    <nav class="main-nav">
+      <a href="index.html#women">Women</a>
+      <a href="index.html#men">Men</a>
+      <a href="index.html#new">New Arrivals</a>
+      <a href="index.html#sale">Sale</a>
+    </nav>
+    <div class="header-actions">
+      <span class="account-links"><a href="login.html">Login</a></span>
+      <a class="cart-link" href="cart.html" aria-label="Cart">🛍️<span class="cart-count">0</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="section">
+    <h2>Your <span class="accent">Cart</span></h2>
+    <div id="cartRoot"></div>
+
+    <div class="totals" id="totalsBox">
+      <div class="row"><span>Subtotal</span><span id="subtotalEl">₦0</span></div>
+      <div class="row"><span>Delivery</span><span class="delivery-note">Calculated at checkout — Nigeria only</span></div>
+      <div class="row grand"><span>Total</span><span id="totalEl">₦0</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="checkoutSection">
+    <h2>Checkout <span class="accent">— Delivery Details</span></h2>
+    <form id="checkoutForm" class="form-card" style="margin:0;">
+      <label class="f-label" for="fullName">Full name</label>
+      <input class="f-input" id="fullName" type="text" required autocomplete="name">
+
+      <label class="f-label" for="phone">Phone (WhatsApp)</label>
+      <input class="f-input" id="phone" type="tel" required autocomplete="tel" placeholder="0803 000 0000">
+
+      <label class="f-label" for="email">Email</label>
+      <input class="f-input" id="email" type="email" required autocomplete="email">
+
+      <label class="f-label" for="street">Street address</label>
+      <input class="f-input" id="street" type="text" required autocomplete="street-address">
+
+      <label class="f-label" for="city">City / Town</label>
+      <input class="f-input" id="city" type="text" required>
+
+      <label class="f-label" for="state">State</label>
+      <select class="f-input" id="state" required>
+        <option value="">— Select state —</option>
+      </select>
+
+      <div style="margin-top:22px;">
+        <button class="btn btn-block" type="submit">Pay with Paystack</button>
+      </div>
+      <p class="delivery-note" style="margin-top:10px;">Secure payment by Paystack · Cards, bank transfer &amp; USSD · Delivery within Nigeria only</p>
+    </form>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h3>CROWN<span>LESS</span></h3>
+      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for women &amp; men in Nigeria. Pay securely with Paystack. Delivery across Nigeria.</p>
+    </div>
+    <div>
+      <strong>Shop</strong>
+      <a href="index.html#women">Women</a>
+      <a href="index.html#men">Men</a>
+      <a href="index.html#new">New Arrivals</a>
+      <a href="index.html#sale">Sale</a>
+    </div>
+    <div>
+      <strong>Account</strong>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="cart.html">Cart</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 CROWNLESS · Nigeria · Prices in ₦ (NGN)</div>
+</footer>
+
+<a class="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat with CROWNLESS on WhatsApp">💬</a>
+
+<script src="config.js"></script>
+<script src="products.js"></script>
+<script src="app.js"></script>
+<script>
+  // ---------- Nigerian states (36 + FCT) ----------
+  var NIGERIAN_STATES = ["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno",
+    "Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano",
+    "Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo",
+    "Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara","FCT — Abuja"];
+  var stateSelect = document.getElementById("state");
+  NIGERIAN_STATES.forEach(function (s) {
+    var opt = document.createElement("option");
+    opt.value = s; opt.textContent = s;
+    stateSelect.appendChild(opt);
+  });
+
+  // ---------- cart rendering ----------
+  var cartRoot = document.getElementById("cartRoot");
+
+  function renderCart() {
+    var cart = getCart();
+    if (!cart.length) {
+      cartRoot.innerHTML = '<p class="empty-note">Your cart is empty. <a href="index.html" style="text-decoration:underline;">Continue shopping</a></p>';
+    } else {
+      cartRoot.innerHTML = cart.map(function (item, i) {
+        var p = findProduct(item.id);
+        if (!p) return "";
+        return '<div class="cart-line">' +
+          '<img src="' + p.image + '" alt="' + p.name + '">' +
+          '<div><div class="line-name">' + p.name + "</div>" +
+          '<div class="line-meta">Size: ' + item.size + " · Colour: " + item.colour + "</div>" +
+          '<div class="qty-mini">' +
+            '<button type="button" data-act="minus" data-i="' + i + '">−</button>' +
+            "<span>" + item.qty + "</span>" +
+            '<button type="button" data-act="plus" data-i="' + i + '">+</button>' +
+            '<button type="button" class="remove-btn" data-act="remove" data-i="' + i + '">Remove</button>' +
+          "</div></div>" +
+          '<div class="line-price">' + formatPrice(p.price * item.qty) + "</div>" +
+        "</div>";
+      }).join("");
+    }
+    var subtotal = cartSubtotal();
+    document.getElementById("subtotalEl").textContent = formatPrice(subtotal);
+    document.getElementById("totalEl").textContent = formatPrice(subtotal);
+    document.getElementById("checkoutSection").style.display = cart.length ? "" : "none";
+  }
+
+  cartRoot.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-act]");
+    if (!btn) return;
+    var cart = getCart();
+    var i = parseInt(btn.getAttribute("data-i"), 10);
+    var act = btn.getAttribute("data-act");
+    if (act === "plus") cart[i].qty = Math.min(99, cart[i].qty + 1);
+    if (act === "minus") cart[i].qty = Math.max(1, cart[i].qty - 1);
+    if (act === "remove") cart.splice(i, 1);
+    saveCart(cart);
+    renderCart();
+  });
+
+  renderCart();
+
+  // ---------- Paystack (stub) ----------
+  // Checkout goes live once the Paystack TEST public key is pasted into
+  // config.js as CONFIG.PAYSTACK_PUBLIC_KEY. Until then this stub only
+  // explains that — it never pretends a payment happened.
+  function payWithPaystack() {
+    if (!getCart().length) {
+      alert("Your cart is empty — add something first.");
+      return;
+    }
+    if (!CONFIG.PAYSTACK_PUBLIC_KEY || CONFIG.PAYSTACK_PUBLIC_KEY === "pk_test_REPLACE_ME") {
+      alert("Paystack test mode is not connected yet.\n\nCheckout goes live once the Paystack test public key is pasted into config.js. No payment has been taken.");
+      return;
+    }
+    // Key present: the real PaystackPop checkout handler gets wired here.
+    alert("Paystack test key detected — live checkout wiring is the next build step. No payment has been taken.");
+  }
+
+  document.getElementById("checkoutForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    payWithPaystack();
+  });
+</script>
+</body>
+</html>
