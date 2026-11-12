@@ -51,6 +51,12 @@
 
 <a class="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat with CROWNLESS on WhatsApp">💬</a>
 
+<div class="sticky-bar" id="stickyBar">
+  <img id="sbImg" alt="">
+  <div class="sb-info"><strong id="sbName"></strong><span id="sbPrice"></span></div>
+  <button id="sbAdd" type="button">Add to Bag</button>
+</div>
+
 <script src="config.js"></script>
 <script src="products.js"></script>
 <script src="app.js"></script>
@@ -82,7 +88,36 @@
       return '<button class="dot' + (i === 0 ? " active" : "") + '" data-dot="' + i + '" type="button" aria-label="Photo ' + (i + 1) + '"></button>';
     }).join("");
 
+    var genderLabel = product.gender === "women" ? "Women" : "Men";
+    var shortDesc = product.details ? product.details.split(". ")[0] + "." : "";
+
+    var others = PRODUCTS.filter(function (x) { return x.id !== product.id && x.gender === product.gender; });
+    var sameCat = others.filter(function (x) { return x.category === product.category; });
+    var diffCat = others.filter(function (x) { return x.category !== product.category; });
+    var similar = sameCat.concat(diffCat).slice(0, 8);
+    var styleWith = diffCat.slice(0, 4);
+    var like = sameCat.concat(diffCat).slice(0, 4);
+
+    function miniCard(x) {
+      return '<a class="mini-card" href="product.html?id=' + x.id + '"><img src="' + x.image + '" alt="' + x.name + '">' +
+        '<div class="mc-name">' + x.name + '</div><div class="mc-price">' + formatPrice(x.price) + "</div></a>";
+    }
+    function cardHTML(x) {
+      var off = x.oldPrice ? Math.round((1 - x.price / x.oldPrice) * 100) : 0;
+      var b = off
+        ? '<span class="badge badge-sale">' + off + "% OFF</span>"
+        : (x.badge ? '<span class="badge badge-' + x.badge.toLowerCase() + '">' + x.badge + "</span>" : "");
+      var o = x.oldPrice ? ' <span class="old-price">' + formatPrice(x.oldPrice) + "</span>" : "";
+      return '<article class="card">' + b +
+        '<a href="product.html?id=' + x.id + '"><img src="' + x.image + '" alt="' + x.name + '"></a>' +
+        '<div class="card-body"><a href="product.html?id=' + x.id + '"><h3>' + x.name + "</h3></a>" +
+        '<div class="card-meta">' + x.category + "</div>" +
+        '<div class="price">' + formatPrice(x.price) + o + "</div></div></article>";
+    }
+
     root.innerHTML =
+      '<nav class="breadcrumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html">' + genderLabel + '</a> &rsaquo; ' +
+        product.category + " &rsaquo; <span>" + product.name + "</span></nav>" +
       '<div class="product-layout">' +
         '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery">' + slides + "</div>" + badge +
           '<button class="g-arrow prev" id="gPrev" type="button" aria-label="Previous photo">‹</button>' +
@@ -92,7 +127,7 @@
           "<h1>" + product.name + "</h1>" +
           '<div class="card-meta">' + product.category + " · " + (product.gender === "women" ? "Women" : "Men") + "</div>" +
           '<div class="price">' + formatPrice(product.price) + old + "</div>" +
-          '<p class="product-desc">Sample product — full description, fabric details and care instructions will be added when the real CROWNLESS range drops.</p>' +
+          '<p class="product-desc">' + shortDesc + "</p>" +
           '<span class="field-label">Size</span><div class="option-row" id="sizeRow">' +
             product.sizes.map(function (s) { return '<button class="option-btn" data-size="' + s + '">' + s + "</button>"; }).join("") +
           "</div>" +
@@ -103,8 +138,14 @@
           '<div class="qty-row"><button id="qtyMinus" type="button">−</button><input id="qtyInput" type="text" value="1" readonly><button id="qtyPlus" type="button">+</button></div>' +
           '<div style="margin-top:22px;"><button class="btn btn-block" id="addBtn" type="button">Add to Cart</button></div>' +
           '<div class="toast" id="toast">Added to cart ✔ &nbsp;<a href="cart.html" style="text-decoration:underline; font-weight:800;">View cart &amp; checkout</a></div>' +
+          '<div class="accordion open"><button class="acc-head" type="button">Product Details <span class="chev">▾</span></button><div class="acc-body">' + (product.details || "") + "</div></div>" +
+          '<div class="accordion"><button class="acc-head" type="button">Material &amp; Care <span class="chev">▾</span></button><div class="acc-body">' + (product.material || "") + "</div></div>" +
+          '<div class="accordion"><button class="acc-head" type="button">Delivery &amp; Returns <span class="chev">▾</span></button><div class="acc-body">Delivery across Nigeria in 2-5 working days; the delivery fee is calculated at checkout. Pay securely with Paystack, or message us on WhatsApp to order. Wrong size? Chat with us on WhatsApp within 7 days of delivery for an exchange.</div></div>' +
         "</div>" +
-      "</div>";
+      "</div>" +
+      '<div class="rel-section"><h2 class="section-title">Similar Styles</h2><div class="hscroll">' + similar.map(miniCard).join("") + "</div></div>" +
+      '<div class="rel-section"><h2 class="section-title">Style It With</h2><div class="hscroll">' + styleWith.map(miniCard).join("") + "</div></div>" +
+      '<div class="rel-section"><h2 class="section-title">You Might Also Like</h2><div class="grid">' + like.map(cardHTML).join("") + "</div></div>";
 
     // Swipeable gallery: native swipe + arrows + dots
     var galleryEl = document.getElementById("gallery");
@@ -150,12 +191,26 @@
       qtyInput.value = Math.min(99, parseInt(qtyInput.value, 10) + 1);
     });
 
-    document.getElementById("addBtn").addEventListener("click", function () {
-      if (!selectedSize) { alert("Please pick a size first."); return; }
-      if (!selectedColour) { alert("Please pick a colour first."); return; }
+    function doAdd() {
+      if (!selectedSize) { alert("Please pick a size first."); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+      if (!selectedColour) { alert("Please pick a colour first."); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
       addToCart(product.id, selectedSize, selectedColour, parseInt(qtyInput.value, 10) || 1);
       document.getElementById("toast").classList.add("show");
+    }
+    document.getElementById("addBtn").addEventListener("click", doAdd);
+
+    // Accordions (Product Details / Material & Care / Delivery & Returns)
+    document.querySelectorAll(".acc-head").forEach(function (h) {
+      h.addEventListener("click", function () { h.parentElement.classList.toggle("open"); });
     });
+
+    // Sticky Add to Bag bar
+    document.getElementById("sbImg").src = product.image;
+    document.getElementById("sbName").textContent = product.name;
+    document.getElementById("sbPrice").textContent = formatPrice(product.price);
+    document.getElementById("stickyBar").classList.add("show");
+    document.body.classList.add("bar-shown");
+    document.getElementById("sbAdd").addEventListener("click", doAdd);
   }
 </script>
 </body>
