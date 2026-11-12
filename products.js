@@ -192,5 +192,35 @@ const PRODUCTS = [
       "https://images.pexels.com/photos/8498700/pexels-photo-8498700.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
       "https://images.pexels.com/photos/8498700/pexels-photo-8498700.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
     ]
+  },
+  {
+    id: "m7",
+    name: "Palazzo Joggers",
+    gender: "men",
+    category: "Pants",
+    price: 32000,
+    sizes: ["M", "L", "XL", "XXL"],
+    colours: ["Sky Blue", "Black", "White", "Green", "Orange", "Purple"],
+    badge: "New",
+    image: "https://images.pexels.com/photos/40160180/pexels-photo-40160180/free-photo-of-elegant-young-man-in-black-shirt-and-wide-leg-pants.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    gallery: [
+      "https://images.pexels.com/photos/40160180/pexels-photo-40160180/free-photo-of-elegant-young-man-in-black-shirt-and-wide-leg-pants.jpeg?auto=compress&cs=tinysrgb&w=480&h=800&fit=crop",
+      "https://images.pexels.com/photos/40160180/pexels-photo-40160180/free-photo-of-elegant-young-man-in-black-shirt-and-wide-leg-pants.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
+    ]
+  },
+  {
+    id: "m8",
+    name: "Oversized Zip-Up Hoodie",
+    gender: "men",
+    category: "Hoodies",
+    price: 42000,
+    sizes: ["M", "L", "XL", "XXL"],
+    colours: ["Grey", "Black", "White"],
+    badge: "New",
+    image: "https://images.pexels.com/photos/5825332/pexels-photo-5825332.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    gallery: [
+      "https://images.pexels.com/photos/5825330/pexels-photo-5825330.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+      "https://images.pexels.com/photos/5825332/pexels-photo-5825332.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop"
+    ]
   }
 ];
