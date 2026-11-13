@@ -339,16 +339,16 @@ body.bar-shown { padding-bottom: 82px; }
 body.bar-shown .wa-float { bottom: 96px; }
 
 /* ---------- Slim header (product page): one row, Fashion Nova-style ---------- */
-.slim-header .header-inner { flex-wrap: nowrap; padding: 8px 14px; gap: 10px; }
+.slim-header .header-inner { flex-wrap: nowrap; padding: 6px 14px; gap: 10px; }
 .slim-header .logo { font-size: 1.08rem; letter-spacing: 2px; white-space: nowrap; }
 .slim-header .main-nav { display: none; }
 .slim-header .account-links { font-size: .92rem; }
 .slim-header .cart-link { font-size: 1.15rem; }
 
 /* ---------- Nova-style first screen: delivery line, pay line, size guide ---------- */
-.top-strip { background: #f7f7f7; border-bottom: 1px solid #eee; padding: 7px 16px 8px; }
-.delivery-line { font-size: .82rem; text-align: center; color: #333; }
-.top-strip .breadcrumb { padding: 2px 0 0; }
+.top-strip { padding: 5px 16px 4px; }
+.delivery-line { font-size: .72rem; text-align: left; color: #333; line-height: 1.3; }
+.top-strip .breadcrumb { padding: 1px 0 0; font-size: .72rem; line-height: 1.3; }
 .pay-line { font-size: .85rem; color: var(--grey-dark); margin: 2px 0; }
 .sg-link { background: none; border: 0; font: inherit; font-weight: 600; text-transform: none; letter-spacing: 0; text-decoration: underline; cursor: pointer; color: #333; padding: 0; margin-left: 4px; }
 .size-guide { border: 1px solid var(--grey); border-radius: 12px; padding: 10px 14px; margin: 2px 0 8px; }
@@ -362,5 +362,5 @@ html, body { overflow-x: hidden; overflow-x: clip; }
   .product-photo { margin: 0 -16px; }
   .gallery { border-radius: 0; background: transparent; gap: 6px; }
   .product-photo .gallery img { flex: 0 0 72vw; width: 72vw; height: 100vw; max-width: none; min-width: 0; }
-  .product-layout { padding-top: 8px; }
+  .product-layout { padding-top: 2px; }
 }
