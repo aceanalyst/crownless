@@ -276,7 +276,7 @@ input.f-input:focus, select.f-input:focus, textarea.f-input:focus { border-color
 .gallery-wrap { position: relative; }
 .gallery-wrap .badge { z-index: 3; }
 .gallery {
-  display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+  display: flex; overflow-x: auto; scroll-snap-type: x proximity;
   border-radius: var(--radius); background: var(--grey);
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
@@ -356,7 +356,7 @@ body.bar-shown .wa-float { bottom: 96px; }
 .size-guide table { width: 100%; border-collapse: collapse; font-size: .88rem; }
 .size-guide th, .size-guide td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #eee; }
 .size-guide p { font-size: .8rem; color: var(--grey-dark); margin-top: 8px; }
-html, body { overflow-x: hidden; overflow-x: clip; }
+html, body { overflow-x: clip; }
 
 /* ---------- Peek gallery on mobile: next photo shows at the edge, full-bleed ---------- */
 @media (max-width: 899px) {
