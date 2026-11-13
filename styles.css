@@ -385,3 +385,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .option-btn { color: #111; font-family: inherit; font-size: .9rem; font-weight: 600; border: 1px solid #ccc; border-radius: 6px; padding: 9px 16px; }
 .option-btn.selected { border-color: #111; background: #111; color: #fff; }
 .pay-line { font-size: .8rem; }
+
+/* ---------- Buy box v3: Nova's order (mirrors the in-page block in product.html) ---------- */
+.name-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.wish-btn { background: none; border: none; font-size: 22px; line-height: 1; cursor: pointer; color: #111; padding: 0 2px; font-family: inherit; }
+.wish-btn.active { color: #d6001c; }
+.product-info .price.sale { color: #d6001c; }
+.off-tag { color: #d6001c; font-size: 13px; font-weight: 700; }
+.sel-name { font-weight: 500; }
+.label-row { display: flex; align-items: baseline; justify-content: space-between; }
+#sizeRow { flex-wrap: nowrap; }
+#sizeRow .option-btn { flex: 1 1 0; }

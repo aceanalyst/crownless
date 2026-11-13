@@ -4,14 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product — CROWNLESS</title>
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles.css?v=12">
 <style>
-/* Buy-box type carried in the page itself (Nova's sizes) - beats any stale cached stylesheet */
-.product-info h1 { font-size: 15px !important; font-weight: 500 !important; margin-bottom: 2px !important; }
-.product-info .price { font-size: 19px !important; font-weight: 700 !important; }
-.field-label { text-transform: none !important; letter-spacing: 0 !important; font-size: 14px !important; font-weight: 700 !important; }
-.option-btn { color: #111 !important; font-family: inherit !important; font-size: 14px !important; font-weight: 600 !important; }
+/* Buy box rebuilt in Fashion Nova's order and sizes, carried in the page itself so no stale cached stylesheet can override it */
+.product-info h1 { font-size: 15px !important; font-weight: 500 !important; margin: 0 !important; }
+.name-row { display: flex !important; align-items: flex-start !important; justify-content: space-between !important; gap: 10px !important; }
+.wish-btn { background: none !important; border: none !important; font-size: 22px !important; line-height: 1 !important; cursor: pointer !important; color: #111 !important; padding: 0 2px !important; font-family: inherit !important; }
+.wish-btn.active { color: #d6001c !important; }
+.product-info .price { font-size: 19px !important; font-weight: 700 !important; margin-top: 6px !important; }
+.product-info .price.sale { color: #d6001c !important; }
+.off-tag { color: #d6001c !important; font-size: 13px !important; font-weight: 700 !important; }
+.field-label { text-transform: none !important; letter-spacing: 0 !important; font-size: 14px !important; font-weight: 700 !important; display: block !important; margin: 14px 0 7px !important; }
+.sel-name { font-weight: 500 !important; }
+.label-row { display: flex !important; align-items: baseline !important; justify-content: space-between !important; }
+.sg-link { font-size: 13px !important; font-weight: 500 !important; color: #111 !important; }
+.option-btn { color: #111 !important; font-family: inherit !important; font-size: 14px !important; font-weight: 600 !important; border-radius: 4px !important; padding: 10px 14px !important; }
 .option-btn.selected { color: #fff !important; }
+#sizeRow { flex-wrap: nowrap !important; gap: 8px !important; }
+#sizeRow .option-btn { flex: 1 1 0 !important; padding: 10px 4px !important; }
+#addBtn { padding: 16px !important; font-size: 15px !important; font-weight: 700 !important; }
 .pay-line { font-size: 13px !important; }
 </style>
 </head>
@@ -83,6 +94,8 @@
     var old = product.oldPrice
       ? ' <span class="old-price">' + formatPrice(product.oldPrice) + "</span>"
       : "";
+    var offPct = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
+    var offTag = offPct ? ' <span class="off-tag">' + offPct + "% OFF</span>" : "";
 
     var photos = [product.image].concat(product.gallery || []);
     var slides = photos.map(function (src) {
@@ -126,20 +139,17 @@
           '<button class="g-arrow next" id="gNext" type="button" aria-label="Next photo">›</button></div>' +
           '<div class="gallery-dots">' + dots + "</div></div>" +
         '<div class="product-info">' +
-          "<h1>" + product.name + "</h1>" +
-          '<div class="card-meta">' + product.category + " · " + (product.gender === "women" ? "Women" : "Men") + "</div>" +
-          '<div class="price">' + formatPrice(product.price) + old + "</div>" +
+          '<div class="name-row"><h1>' + product.name + '</h1><button class="wish-btn" id="wishBtn" type="button" aria-label="Save to favorites">♡</button></div>' +
+          '<div class="price' + (product.oldPrice ? " sale" : "") + '">' + formatPrice(product.price) + old + offTag + "</div>" +
           '<div class="pay-line">Pay securely with Paystack - or order on WhatsApp</div>' +
-          '<span class="field-label">Size <button class="sg-link" id="sgToggle" type="button">| View Size Guide</button></span><div class="option-row" id="sizeRow">' +
+          '<span class="field-label">Colour: <span class="sel-name" id="colourName"></span></span><div class="option-row" id="colourRow">' +
+            product.colours.map(function (c) { return '<button class="option-btn" data-colour="' + c + '">' + c + "</button>"; }).join("") +
+          "</div>" +
+          '<div class="label-row"><span class="field-label">Size</span><button class="sg-link" id="sgToggle" type="button">View Size Guide</button></div><div class="option-row" id="sizeRow">' +
             product.sizes.map(function (s) { return '<button class="option-btn" data-size="' + s + '">' + s + "</button>"; }).join("") +
           "</div>" +
           '<div class="size-guide" id="sizeGuide" hidden><table><tr><th>Size</th><th>Chest</th><th>Length</th></tr><tr><td>M</td><td>38-40 in</td><td>27 in</td></tr><tr><td>L</td><td>40-42 in</td><td>28 in</td></tr><tr><td>XL</td><td>42-44 in</td><td>29 in</td></tr><tr><td>XXL</td><td>44-46 in</td><td>30 in</td></tr></table><p>Measurements in inches. Between sizes? Size up for a relaxed fit.</p></div>' +
-          '<span class="field-label">Colour</span><div class="option-row" id="colourRow">' +
-            product.colours.map(function (c) { return '<button class="option-btn" data-colour="' + c + '">' + c + "</button>"; }).join("") +
-          "</div>" +
-          '<span class="field-label">Quantity</span>' +
-          '<div class="qty-row"><button id="qtyMinus" type="button">−</button><input id="qtyInput" type="text" value="1" readonly><button id="qtyPlus" type="button">+</button></div>' +
-          '<div style="margin-top:22px;"><button class="btn btn-block" id="addBtn" type="button">Add to Cart</button></div>' +
+          '<div style="margin-top:20px;"><button class="btn btn-block" id="addBtn" type="button">Add to Bag</button></div>' +
           '<div class="toast" id="toast">Added to cart ✔ &nbsp;<a href="cart.html" style="text-decoration:underline; font-weight:800;">View cart &amp; checkout</a></div>' +
           '<div class="accordion open"><button class="acc-head" type="button">Product Details <span class="chev">▾</span></button><div class="acc-body">' + (product.details || "") + "</div></div>" +
           '<div class="accordion"><button class="acc-head" type="button">Material &amp; Care <span class="chev">▾</span></button><div class="acc-body">' + (product.material || "") + "</div></div>" +
@@ -211,20 +221,24 @@
       });
     }
     wireOptions("sizeRow", "data-size", function (v) { selectedSize = v; });
-    wireOptions("colourRow", "data-colour", function (v) { selectedColour = v; });
-
-    var qtyInput = document.getElementById("qtyInput");
-    document.getElementById("qtyMinus").addEventListener("click", function () {
-      qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) - 1);
+    wireOptions("colourRow", "data-colour", function (v) {
+      selectedColour = v;
+      document.getElementById("colourName").textContent = v;
+      if (photos.length === product.colours.length * 2) { goTo(product.colours.indexOf(v) * 2); }
     });
-    document.getElementById("qtyPlus").addEventListener("click", function () {
-      qtyInput.value = Math.min(99, parseInt(qtyInput.value, 10) + 1);
+    var firstColour = document.querySelector("#colourRow .option-btn");
+    if (firstColour) { firstColour.click(); }
+
+    var wishBtn = document.getElementById("wishBtn");
+    wishBtn.addEventListener("click", function () {
+      var on = wishBtn.classList.toggle("active");
+      wishBtn.textContent = on ? "♥" : "♡";
     });
 
     function doAdd() {
       if (!selectedSize) { alert("Please pick a size first."); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
       if (!selectedColour) { alert("Please pick a colour first."); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
-      addToCart(product.id, selectedSize, selectedColour, parseInt(qtyInput.value, 10) || 1);
+      addToCart(product.id, selectedSize, selectedColour, 1);
       document.getElementById("toast").classList.add("show");
     }
     document.getElementById("addBtn").addEventListener("click", doAdd);
