@@ -396,3 +396,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .label-row { display: flex; align-items: baseline; justify-content: space-between; }
 #sizeRow { flex-wrap: nowrap; }
 #sizeRow .option-btn { flex: 1 1 0; }
+
+/* ---------- Width guard: keep the product layout inside the phone screen ---------- */
+.product-layout > * { min-width: 0; }
+.product-photo, .product-info { max-width: 100%; }
+#sizeRow .option-btn { min-width: 0; }
+#addBtn { background: #111; color: #fff; }
