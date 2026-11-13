@@ -365,7 +365,7 @@ html, body { overflow-x: clip; }
 }
 
 /* ---------- Buy box: smaller text like Nova, so more fits the first screen ---------- */
-.product-info h1 { font-size: 1.08rem; font-weight: 800; }
+.product-info h1 { font-size: 1rem; font-weight: 600; }
 .product-info .price { font-size: 1.12rem; }
 .pay-line { font-size: .78rem; }
 .field-label { font-size: .72rem; margin: 10px 0 5px; }
