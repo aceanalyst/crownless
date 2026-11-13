@@ -23,6 +23,7 @@
   </div>
 </header>
 
+<div class="delivery-line">🚚 Delivery across Nigeria in 2-5 working days</div>
 <main class="wrap">
   <div id="productRoot"></div>
 </main>
@@ -127,10 +128,11 @@
           "<h1>" + product.name + "</h1>" +
           '<div class="card-meta">' + product.category + " · " + (product.gender === "women" ? "Women" : "Men") + "</div>" +
           '<div class="price">' + formatPrice(product.price) + old + "</div>" +
-          '<p class="product-desc">' + shortDesc + "</p>" +
-          '<span class="field-label">Size</span><div class="option-row" id="sizeRow">' +
+          '<div class="pay-line">Pay securely with Paystack - or order on WhatsApp</div>' +
+          '<span class="field-label">Size <button class="sg-link" id="sgToggle" type="button">| View Size Guide</button></span><div class="option-row" id="sizeRow">' +
             product.sizes.map(function (s) { return '<button class="option-btn" data-size="' + s + '">' + s + "</button>"; }).join("") +
           "</div>" +
+          '<div class="size-guide" id="sizeGuide" hidden><table><tr><th>Size</th><th>Chest</th><th>Length</th></tr><tr><td>M</td><td>38-40 in</td><td>27 in</td></tr><tr><td>L</td><td>40-42 in</td><td>28 in</td></tr><tr><td>XL</td><td>42-44 in</td><td>29 in</td></tr><tr><td>XXL</td><td>44-46 in</td><td>30 in</td></tr></table><p>Measurements in inches. Between sizes? Size up for a relaxed fit.</p></div>' +
           '<span class="field-label">Colour</span><div class="option-row" id="colourRow">' +
             product.colours.map(function (c) { return '<button class="option-btn" data-colour="' + c + '">' + c + "</button>"; }).join("") +
           "</div>" +
@@ -150,8 +152,12 @@
     // Swipeable gallery: native swipe + arrows + dots
     var galleryEl = document.getElementById("gallery");
     var dotEls = document.querySelectorAll(".gallery-dots .dot");
+    function slideStep() {
+      var imgs = galleryEl.querySelectorAll("img");
+      return imgs.length > 1 ? (imgs[1].offsetLeft - imgs[0].offsetLeft) : galleryEl.clientWidth;
+    }
     function slideIndex() {
-      return Math.round(galleryEl.scrollLeft / galleryEl.clientWidth);
+      return Math.round(galleryEl.scrollLeft / slideStep());
     }
     function markDots() {
       var i = slideIndex();
@@ -159,16 +165,21 @@
     }
     galleryEl.addEventListener("scroll", markDots, { passive: true });
     document.getElementById("gPrev").addEventListener("click", function () {
-      galleryEl.scrollBy({ left: -galleryEl.clientWidth, behavior: "smooth" });
+      galleryEl.scrollBy({ left: -slideStep(), behavior: "smooth" });
     });
     document.getElementById("gNext").addEventListener("click", function () {
-      galleryEl.scrollBy({ left: galleryEl.clientWidth, behavior: "smooth" });
+      galleryEl.scrollBy({ left: slideStep(), behavior: "smooth" });
     });
     dotEls.forEach(function (d) {
       d.addEventListener("click", function () {
         var i = parseInt(d.getAttribute("data-dot"), 10);
-        galleryEl.scrollTo({ left: i * galleryEl.clientWidth, behavior: "smooth" });
+        galleryEl.scrollTo({ left: i * slideStep(), behavior: "smooth" });
       });
+    });
+
+    document.getElementById("sgToggle").addEventListener("click", function () {
+      var g = document.getElementById("sizeGuide");
+      g.hidden = !g.hidden;
     });
 
     function wireOptions(rowId, attr, set) {

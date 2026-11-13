@@ -344,3 +344,20 @@ body.bar-shown .wa-float { bottom: 96px; }
 .slim-header .main-nav { display: none; }
 .slim-header .account-links { font-size: .92rem; }
 .slim-header .cart-link { font-size: 1.15rem; }
+
+/* ---------- Nova-style first screen: delivery line, pay line, size guide ---------- */
+.delivery-line { font-size: .82rem; text-align: center; padding: 7px 16px; border-bottom: 1px solid #eee; color: #333; background: #fff; }
+.pay-line { font-size: .85rem; color: var(--grey-dark); margin: 2px 0; }
+.sg-link { background: none; border: 0; font: inherit; font-weight: 600; text-transform: none; letter-spacing: 0; text-decoration: underline; cursor: pointer; color: #333; padding: 0; margin-left: 4px; }
+.size-guide { border: 1px solid var(--grey); border-radius: 12px; padding: 10px 14px; margin: 2px 0 8px; }
+.size-guide table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.size-guide th, .size-guide td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #eee; }
+.size-guide p { font-size: .8rem; color: var(--grey-dark); margin-top: 8px; }
+html, body { overflow-x: hidden; overflow-x: clip; }
+
+/* ---------- Peek gallery on mobile: next photo shows at the edge, full-bleed ---------- */
+@media (max-width: 899px) {
+  .product-photo { margin: 0 -16px; }
+  .gallery { border-radius: 0; background: transparent; gap: 6px; }
+  .gallery img { flex: 0 0 72%; width: auto; aspect-ratio: 5 / 6.9; }
+}
