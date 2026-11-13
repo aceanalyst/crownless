@@ -297,7 +297,8 @@
     wireOptions("colourRow", "data-colour", function (v) {
       selectedColour = v;
       document.getElementById("colourName").textContent = v;
-      if (photos.length === product.colours.length * 2) { goTo(product.colours.indexOf(v) * 2); }
+      var step = photos.length === product.colours.length * 2 ? 2 : (product.colourShots === 1 ? 1 : 0);
+      if (step) { goTo(product.colours.indexOf(v) * step); }
     });
     var firstColour = document.querySelector("#colourRow .option-btn");
     if (firstColour) { firstColour.click(); }
