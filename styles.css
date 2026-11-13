@@ -281,7 +281,7 @@ input.f-input:focus, select.f-input:focus, textarea.f-input:focus { border-color
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 .gallery::-webkit-scrollbar { display: none; }
-.gallery img {
+.product-photo .gallery img {
   flex: 0 0 100%; width: 100%; aspect-ratio: 5 / 5.4; object-fit: cover;
   object-position: 50% 20%;
   scroll-snap-align: start; border-radius: 0;
@@ -346,7 +346,9 @@ body.bar-shown .wa-float { bottom: 96px; }
 .slim-header .cart-link { font-size: 1.15rem; }
 
 /* ---------- Nova-style first screen: delivery line, pay line, size guide ---------- */
-.delivery-line { font-size: .82rem; text-align: center; padding: 7px 16px; border-bottom: 1px solid #eee; color: #333; background: #fff; }
+.top-strip { background: #f7f7f7; border-bottom: 1px solid #eee; padding: 7px 16px 8px; }
+.delivery-line { font-size: .82rem; text-align: center; color: #333; }
+.top-strip .breadcrumb { padding: 2px 0 0; }
 .pay-line { font-size: .85rem; color: var(--grey-dark); margin: 2px 0; }
 .sg-link { background: none; border: 0; font: inherit; font-weight: 600; text-transform: none; letter-spacing: 0; text-decoration: underline; cursor: pointer; color: #333; padding: 0; margin-left: 4px; }
 .size-guide { border: 1px solid var(--grey); border-radius: 12px; padding: 10px 14px; margin: 2px 0 8px; }
@@ -359,5 +361,6 @@ html, body { overflow-x: hidden; overflow-x: clip; }
 @media (max-width: 899px) {
   .product-photo { margin: 0 -16px; }
   .gallery { border-radius: 0; background: transparent; gap: 6px; }
-  .gallery img { flex: 0 0 72%; width: auto; aspect-ratio: 5 / 6.9; }
+  .product-photo .gallery img { flex: 0 0 72vw; width: 72vw; height: 100vw; max-width: none; min-width: 0; }
+  .product-layout { padding-top: 8px; }
 }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product — CROWNLESS</title>
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
   </div>
 </header>
 
-<div class="delivery-line">🚚 Delivery across Nigeria in 2-5 working days</div>
+<div class="top-strip"><div class="delivery-line">🚚 Delivery across Nigeria in 2-5 working days</div><nav class="breadcrumb" id="crumb"></nav></div>
 <main class="wrap">
   <div id="productRoot"></div>
 </main>
@@ -117,8 +117,6 @@
     }
 
     root.innerHTML =
-      '<nav class="breadcrumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html">' + genderLabel + '</a> &rsaquo; ' +
-        product.category + " &rsaquo; <span>" + product.name + "</span></nav>" +
       '<div class="product-layout">' +
         '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery">' + slides + "</div>" + badge +
           '<button class="g-arrow prev" id="gPrev" type="button" aria-label="Previous photo">‹</button>' +
@@ -148,6 +146,10 @@
       '<div class="rel-section"><h2 class="section-title">Similar Styles</h2><div class="hscroll">' + similar.map(miniCard).join("") + "</div></div>" +
       '<div class="rel-section"><h2 class="section-title">Style It With</h2><div class="hscroll">' + styleWith.map(miniCard).join("") + "</div></div>" +
       '<div class="rel-section"><h2 class="section-title">You Might Also Like</h2><div class="grid">' + like.map(cardHTML).join("") + "</div></div>";
+
+    document.getElementById("crumb").innerHTML =
+      '<a href="index.html">Home</a> &rsaquo; <a href="index.html">' + genderLabel + '</a> &rsaquo; ' +
+      product.category + " &rsaquo; <span>" + product.name + "</span>";
 
     // Swipeable gallery: native swipe + arrows + dots
     var galleryEl = document.getElementById("gallery");
