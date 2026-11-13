@@ -102,9 +102,9 @@
 <div class="lightbox" id="lightbox" hidden>
   <div class="lb-track-wrap"><div class="lb-track" id="lbTrack"></div></div>
   <div class="lb-count" id="lbCount"></div>
-  <button class="lb-close" id="lbClose" type="button" aria-label="Close">\u2715</button>
-  <button class="lb-arrow prev" id="lbPrev" type="button" aria-label="Previous photo">\u2039</button>
-  <button class="lb-arrow next" id="lbNext" type="button" aria-label="Next photo">\u203a</button>
+  <button class="lb-close" id="lbClose" type="button" aria-label="Close">&times;</button>
+  <button class="lb-arrow prev" id="lbPrev" type="button" aria-label="Previous photo">&lsaquo;</button>
+  <button class="lb-arrow next" id="lbNext" type="button" aria-label="Next photo">&rsaquo;</button>
 </div>
 
 <script src="config.js"></script>
@@ -272,7 +272,7 @@
     lbTrack.innerHTML = photos.map(function (src) { return '<img src="' + src + '" alt="' + product.name + '">'; }).join("");
     function lbGoTo(i) {
       lbIdx = Math.max(0, Math.min(slideCount - 1, i));
-      lbTrack.style.transform = "translateX(" + (-lbIdx * 100 / slideCount) + "%)";
+      lbTrack.style.transform = "translateX(" + (-lbIdx * lightbox.clientWidth) + "px)";
       lbCount.textContent = (lbIdx + 1) + " / " + slideCount;
     }
     function openLightbox() {
