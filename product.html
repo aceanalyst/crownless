@@ -160,6 +160,13 @@
         if (styleWith.length < 4 && styleWith.indexOf(x) < 0 && x.category !== product.category) { styleWith.push(x); }
       });
     }
+    if (product.pairsWith) {
+      var pairedItem = null;
+      others.forEach(function (x) { if (x.id === product.pairsWith) pairedItem = x; });
+      if (pairedItem) {
+        styleWith = [pairedItem].concat(styleWith.filter(function (x) { return x.id !== pairedItem.id; }));
+      }
+    }
     styleWith = styleWith.slice(0, 4);
     var like = sameCat.concat(diffCat).slice(0, 4);
 
