@@ -30,6 +30,19 @@
 #sizeRow { max-width: 100% !important; }
 #sizeRow .option-btn { min-width: 0 !important; }
 #addBtn { background: #111 !important; color: #fff !important; }
+.gtrack img { cursor: zoom-in; }
+.g-counter { position: absolute; right: 10px; bottom: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; z-index: 3; }
+@media (max-width: 899px) { .g-arrow { display: none; } }
+.lightbox { position: fixed; inset: 0; background: #000; z-index: 300; }
+.lightbox[hidden] { display: none; }
+.lb-track-wrap { position: absolute; inset: 0; overflow: hidden; }
+.lb-track { display: flex; height: 100%; transition: transform .3s ease; }
+.lb-track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; }
+.lb-close { position: absolute; top: 14px; right: 14px; z-index: 2; background: rgba(255,255,255,.15); color: #fff; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 17px; cursor: pointer; font-family: inherit; }
+.lb-count { position: absolute; top: 22px; left: 16px; z-index: 2; color: #fff; font-size: 13px; font-weight: 600; }
+.lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; background: rgba(255,255,255,.15); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 22px; cursor: pointer; font-family: inherit; }
+.lb-arrow.prev { left: 10px; }
+.lb-arrow.next { right: 10px; }
 </style>
 </head>
 <body>
@@ -77,6 +90,14 @@
 </footer>
 
 <a class="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat with CROWNLESS on WhatsApp">💬</a>
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lb-track-wrap"><div class="lb-track" id="lbTrack"></div></div>
+  <div class="lb-count" id="lbCount"></div>
+  <button class="lb-close" id="lbClose" type="button" aria-label="Close">\u2715</button>
+  <button class="lb-arrow prev" id="lbPrev" type="button" aria-label="Previous photo">\u2039</button>
+  <button class="lb-arrow next" id="lbNext" type="button" aria-label="Next photo">\u203a</button>
+</div>
 
 <script src="config.js"></script>
 <script src="products.js"></script>
@@ -143,7 +164,7 @@
         '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery"><div class="gtrack" id="gtrack">' + slides + "</div></div>" + badge +
           '<button class="g-arrow prev" id="gPrev" type="button" aria-label="Previous photo">‹</button>' +
           '<button class="g-arrow next" id="gNext" type="button" aria-label="Next photo">›</button></div>' +
-          '<div class="gallery-dots">' + dots + "</div></div>" +
+          '<div class="gallery-dots">' + dots + "</div>" + '<span class="g-counter" id="gCounter"></span></div>' +
         '<div class="product-info">' +
           '<div class="name-row"><h1>' + product.name + '</h1><button class="wish-btn" id="wishBtn" type="button" aria-label="Save to favorites">♡</button></div>' +
           '<div class="price' + (product.oldPrice ? " sale" : "") + '">' + formatPrice(product.price) + old + offTag + "</div>" +
@@ -193,6 +214,7 @@
       curSlide = Math.max(0, Math.min(slideCount - 1, i));
       trackEl.style.transform = "translateX(" + (-curSlide * slideStep()) + "px)";
       dotEls.forEach(function (d, di) { d.classList.toggle("active", di === curSlide); });
+      syncCounter();
     }
     document.getElementById("gPrev").addEventListener("click", function () { goTo(curSlide - 1); });
     document.getElementById("gNext").addEventListener("click", function () { goTo(curSlide + 1); });
@@ -208,9 +230,54 @@
       if (touchX === null) { return; }
       var dx = e.changedTouches[0].clientX - touchX;
       var dy = e.changedTouches[0].clientY - touchY;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { goTo(curSlide + (dx < 0 ? 1 : -1)); }
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { lastSwipeAt = Date.now(); goTo(curSlide + (dx < 0 ? 1 : -1)); }
       touchX = null; touchY = null;
     }, { passive: true });
+
+    // Photo counter + tap-to-enlarge fullscreen viewer
+    var counterEl = document.getElementById("gCounter");
+    function syncCounter() { counterEl.textContent = (curSlide + 1) + " / " + slideCount; }
+    syncCounter();
+    var lastSwipeAt = 0;
+    var lightbox = document.getElementById("lightbox");
+    var lbTrack = document.getElementById("lbTrack");
+    var lbCount = document.getElementById("lbCount");
+    var lbIdx = 0;
+    lbTrack.innerHTML = photos.map(function (src) { return '<img src="' + src + '" alt="' + product.name + '">'; }).join("");
+    function lbGoTo(i) {
+      lbIdx = Math.max(0, Math.min(slideCount - 1, i));
+      lbTrack.style.transform = "translateX(" + (-lbIdx * 100 / slideCount) + "%)";
+      lbCount.textContent = (lbIdx + 1) + " / " + slideCount;
+    }
+    function openLightbox() {
+      lbGoTo(curSlide);
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+    function closeLightbox() {
+      lightbox.hidden = true;
+      document.body.style.overflow = "";
+      goTo(lbIdx);
+    }
+    document.getElementById("lbClose").addEventListener("click", closeLightbox);
+    document.getElementById("lbPrev").addEventListener("click", function () { lbGoTo(lbIdx - 1); });
+    document.getElementById("lbNext").addEventListener("click", function () { lbGoTo(lbIdx + 1); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !lightbox.hidden) { closeLightbox(); } });
+    var lbX = null, lbY = null;
+    lightbox.addEventListener("touchstart", function (e) { lbX = e.changedTouches[0].clientX; lbY = e.changedTouches[0].clientY; }, { passive: true });
+    lightbox.addEventListener("touchend", function (e) {
+      if (lbX === null) { return; }
+      var dx = e.changedTouches[0].clientX - lbX;
+      var dy = e.changedTouches[0].clientY - lbY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { lbGoTo(lbIdx + (dx < 0 ? 1 : -1)); }
+      lbX = null; lbY = null;
+    }, { passive: true });
+    trackEl.querySelectorAll("img").forEach(function (img) {
+      img.addEventListener("click", function () {
+        if (Date.now() - lastSwipeAt < 350) { return; }
+        openLightbox();
+      });
+    });
 
     document.getElementById("sgToggle").addEventListener("click", function () {
       var g = document.getElementById("sizeGuide");
