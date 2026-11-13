@@ -94,7 +94,7 @@
     var selectedSize = null;
     var selectedColour = null;
 
-    var badge = product.badge
+    var badge = product.badge && product.badge.toLowerCase() !== "new"
       ? '<span class="badge badge-' + product.badge.toLowerCase() + '">' + product.badge + "</span>"
       : "";
     var old = product.oldPrice
@@ -129,7 +129,7 @@
       var off = x.oldPrice ? Math.round((1 - x.price / x.oldPrice) * 100) : 0;
       var b = off
         ? '<span class="badge badge-sale">' + off + "% OFF</span>"
-        : (x.badge ? '<span class="badge badge-' + x.badge.toLowerCase() + '">' + x.badge + "</span>" : "");
+        : (x.badge && x.badge.toLowerCase() !== "new" ? '<span class="badge badge-' + x.badge.toLowerCase() + '">' + x.badge + "</span>" : "");
       var o = x.oldPrice ? ' <span class="old-price">' + formatPrice(x.oldPrice) + "</span>" : "";
       return '<article class="card">' + b +
         '<a href="product.html?id=' + x.id + '"><img src="' + x.image + '" alt="' + x.name + '"></a>' +

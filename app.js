@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ---------- product cards (used by index.html) ----------
 function productCardHTML(p) {
-  const badge = p.badge
+  const badge = p.badge && p.badge.toLowerCase() !== "new"
     ? '<span class="badge badge-' + p.badge.toLowerCase() + '">' + p.badge + "</span>"
     : "";
   const old = p.oldPrice
