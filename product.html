@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product — CROWNLESS</title>
-<link rel="stylesheet" href="styles.css?v=13">
+<link rel="stylesheet" href="styles.css?v=14">
 <style>
 /* Buy box rebuilt in Fashion Nova's order and sizes, carried in the page itself so no stale cached stylesheet can override it */
 .product-info h1 { font-size: 15px !important; font-weight: 500 !important; margin: 0 !important; }
@@ -43,6 +43,14 @@
 .lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; background: rgba(255,255,255,.15); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 22px; cursor: pointer; font-family: inherit; }
 .lb-arrow.prev { left: 10px; }
 .lb-arrow.next { right: 10px; }
+.style-row { gap: 12px !important; }
+.style-card { flex: 0 0 44vw; max-width: 230px; text-decoration: none; color: #111; }
+.sc-img { position: relative; display: block; }
+.sc-img img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: #f2f2f2; }
+.quick-bag { position: absolute; right: 8px; bottom: 8px; width: 34px; height: 34px; border-radius: 50%; background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,.25); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.sc-name { font-size: 13px; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-price { font-size: 13px; font-weight: 700; margin-top: 2px; }
+.sc-price .old-price { font-weight: 400; }
 </style>
 </head>
 <body>
@@ -139,12 +147,30 @@
     var sameCat = others.filter(function (x) { return x.category === product.category; });
     var diffCat = others.filter(function (x) { return x.category !== product.category; });
     var similar = sameCat.concat(diffCat).slice(0, 8);
-    var styleWith = diffCat.slice(0, 4);
+    var TOPCATS = ["Tees", "Polos", "Hoodies", "Shirts", "Jackets"];
+    var BOTCATS = ["Pants", "Jeans", "Shorts", "Skirts"];
+    function isTop(x) { return TOPCATS.indexOf(x.category) >= 0; }
+    function isBottom(x) { return BOTCATS.indexOf(x.category) >= 0; }
+    var styleWith;
+    if (isBottom(product)) { styleWith = others.filter(isTop); }
+    else if (isTop(product)) { styleWith = others.filter(isBottom); }
+    else { styleWith = others.filter(function (x) { return isTop(x) || isBottom(x); }); }
+    if (styleWith.length < 4) {
+      others.forEach(function (x) {
+        if (styleWith.length < 4 && styleWith.indexOf(x) < 0 && x.category !== product.category) { styleWith.push(x); }
+      });
+    }
+    styleWith = styleWith.slice(0, 4);
     var like = sameCat.concat(diffCat).slice(0, 4);
 
     function miniCard(x) {
       return '<a class="mini-card" href="product.html?id=' + x.id + '"><img src="' + x.image + '" alt="' + x.name + '">' +
         '<div class="mc-name">' + x.name + '</div><div class="mc-price">' + formatPrice(x.price) + "</div></a>";
+    }
+    function styleCard(x) {
+      var o = x.oldPrice ? ' <span class="old-price">' + formatPrice(x.oldPrice) + "</span>" : "";
+      return '<a class="style-card" href="product.html?id=' + x.id + '"><span class="sc-img"><img src="' + x.image + '" alt="' + x.name + '"><span class="quick-bag">\U0001F6CD</span></span>' +
+        '<div class="sc-name">' + x.name + '</div><div class="sc-price">' + formatPrice(x.price) + o + "</div></a>";
     }
     function cardHTML(x) {
       var off = x.oldPrice ? Math.round((1 - x.price / x.oldPrice) * 100) : 0;
@@ -183,8 +209,8 @@
           '<div class="accordion"><button class="acc-head" type="button">Delivery &amp; Returns <span class="chev">▾</span></button><div class="acc-body">Delivery across Nigeria in 2-5 working days; the delivery fee is calculated at checkout. Pay securely with Paystack, or message us on WhatsApp to order. Wrong size? Chat with us on WhatsApp within 7 days of delivery for an exchange.</div></div>' +
         "</div>" +
       "</div>" +
+      '<div class="rel-section"><h2 class="section-title">Style It With</h2><div class="hscroll style-row">' + styleWith.map(styleCard).join("") + "</div></div>" +
       '<div class="rel-section"><h2 class="section-title">Similar Styles</h2><div class="hscroll">' + similar.map(miniCard).join("") + "</div></div>" +
-      '<div class="rel-section"><h2 class="section-title">Style It With</h2><div class="hscroll">' + styleWith.map(miniCard).join("") + "</div></div>" +
       '<div class="rel-section"><h2 class="section-title">You Might Also Like</h2><div class="grid">' + like.map(cardHTML).join("") + "</div></div>";
 
     // Order-within countdown to midnight, like Nova's delivery timer
