@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product — CROWNLESS</title>
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
 
@@ -51,12 +51,6 @@
 </footer>
 
 <a class="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat with CROWNLESS on WhatsApp">💬</a>
-
-<div class="sticky-bar" id="stickyBar">
-  <img id="sbImg" alt="">
-  <div class="sb-info"><strong id="sbName"></strong><span id="sbPrice"></span></div>
-  <button id="sbAdd" type="button">Add to Bag</button>
-</div>
 
 <script src="config.js"></script>
 <script src="products.js"></script>
@@ -118,7 +112,7 @@
 
     root.innerHTML =
       '<div class="product-layout">' +
-        '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery">' + slides + "</div>" + badge +
+        '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery"><div class="gtrack" id="gtrack">' + slides + "</div></div>" + badge +
           '<button class="g-arrow prev" id="gPrev" type="button" aria-label="Previous photo">‹</button>' +
           '<button class="g-arrow next" id="gNext" type="button" aria-label="Next photo">›</button></div>' +
           '<div class="gallery-dots">' + dots + "</div></div>" +
@@ -160,33 +154,38 @@
     tickTimer();
     setInterval(tickTimer, 20000);
 
-    // Swipeable gallery: native swipe + arrows + dots
+    // Swipeable gallery: sliding track - arrows, dots and touch swipe move the track
     var galleryEl = document.getElementById("gallery");
+    var trackEl = document.getElementById("gtrack");
     var dotEls = document.querySelectorAll(".gallery-dots .dot");
+    var slideCount = trackEl.querySelectorAll("img").length;
+    var curSlide = 0;
     function slideStep() {
-      var imgs = galleryEl.querySelectorAll("img");
+      var imgs = trackEl.querySelectorAll("img");
       return imgs.length > 1 ? (imgs[1].offsetLeft - imgs[0].offsetLeft) : galleryEl.clientWidth;
     }
-    function slideIndex() {
-      return Math.round(galleryEl.scrollLeft / slideStep());
+    function goTo(i) {
+      curSlide = Math.max(0, Math.min(slideCount - 1, i));
+      trackEl.style.transform = "translateX(" + (-curSlide * slideStep()) + "px)";
+      dotEls.forEach(function (d, di) { d.classList.toggle("active", di === curSlide); });
     }
-    function markDots() {
-      var i = slideIndex();
-      dotEls.forEach(function (d, di) { d.classList.toggle("active", di === i); });
-    }
-    galleryEl.addEventListener("scroll", markDots, { passive: true });
-    document.getElementById("gPrev").addEventListener("click", function () {
-      galleryEl.scrollBy({ left: -slideStep(), behavior: "smooth" });
-    });
-    document.getElementById("gNext").addEventListener("click", function () {
-      galleryEl.scrollBy({ left: slideStep(), behavior: "smooth" });
-    });
+    document.getElementById("gPrev").addEventListener("click", function () { goTo(curSlide - 1); });
+    document.getElementById("gNext").addEventListener("click", function () { goTo(curSlide + 1); });
     dotEls.forEach(function (d) {
-      d.addEventListener("click", function () {
-        var i = parseInt(d.getAttribute("data-dot"), 10);
-        galleryEl.scrollTo({ left: i * slideStep(), behavior: "smooth" });
-      });
+      d.addEventListener("click", function () { goTo(parseInt(d.getAttribute("data-dot"), 10)); });
     });
+    var touchX = null, touchY = null;
+    galleryEl.addEventListener("touchstart", function (e) {
+      touchX = e.changedTouches[0].clientX;
+      touchY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    galleryEl.addEventListener("touchend", function (e) {
+      if (touchX === null) { return; }
+      var dx = e.changedTouches[0].clientX - touchX;
+      var dy = e.changedTouches[0].clientY - touchY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { goTo(curSlide + (dx < 0 ? 1 : -1)); }
+      touchX = null; touchY = null;
+    }, { passive: true });
 
     document.getElementById("sgToggle").addEventListener("click", function () {
       var g = document.getElementById("sizeGuide");
@@ -226,13 +225,6 @@
       h.addEventListener("click", function () { h.parentElement.classList.toggle("open"); });
     });
 
-    // Sticky Add to Bag bar
-    document.getElementById("sbImg").src = product.image;
-    document.getElementById("sbName").textContent = product.name;
-    document.getElementById("sbPrice").textContent = formatPrice(product.price);
-    document.getElementById("stickyBar").classList.add("show");
-    document.body.classList.add("bar-shown");
-    document.getElementById("sbAdd").addEventListener("click", doAdd);
   }
 </script>
 </body>
