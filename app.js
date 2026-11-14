@@ -86,7 +86,7 @@ function productCardHTML(p) {
     '<a class="card" href="product.html?id=' + p.id + '">' +
       '<span class="card-img-wrap"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy">' + badge + "</span>" +
       '<span class="card-body"><span class="card-name">' + p.name + "</span>" +
-      '<span class="card-meta">' + p.category + " · " + (p.gender === "women" ? "Women" : "Men") + "</span>" +
+      '<span class="card-meta">' + p.category + "</span>" +
       '<span class="card-price">' + formatPrice(p.price) + old + "</span></span>" +
     "</a>"
   );
