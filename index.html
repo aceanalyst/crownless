@@ -51,11 +51,6 @@
 
 <main class="wrap">
 
-  <section class="section" id="new">
-    <h2>New <span class="accent">Arrivals</span></h2>
-    <div class="grid" id="newGrid"></div>
-  </section>
-
   <section class="section" id="shop">
     <h2>Shop <span class="accent">All</span></h2>
     <div class="grid" id="shopGrid"></div>
@@ -77,7 +72,6 @@
     <div>
       <strong>Shop</strong>
       <a href="#shop" data-filter-link="men">Men</a>
-      <a href="#new">New Arrivals</a>
       <a href="#sale">Sale</a>
     </div>
     <div>
@@ -160,7 +154,6 @@
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
-  renderGrid(document.getElementById("newGrid"), PRODUCTS.filter(function (p) { return p.badge === "New" && p.gender === "men"; }));
   renderGrid(document.getElementById("saleGrid"), PRODUCTS.filter(function (p) { return p.oldPrice && p.gender === "men"; }));
 
   applyShop();
