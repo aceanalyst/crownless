@@ -133,6 +133,14 @@
     var offTag = offPct ? ' <span class="off-tag">' + offPct + "% OFF</span>" : "";
 
     var photos = [product.image].concat(product.gallery || []);
+    var allPhotos = photos;
+    var perColour = product.colourShots ? product.colourShots : ((product.colours && allPhotos.length === product.colours.length * 2) ? 2 : 0);
+    var sharedTail = perColour ? allPhotos.slice(product.colours.length * perColour) : [];
+    function photosFor(ci) {
+      if (!perColour) { return allPhotos; }
+      return allPhotos.slice(ci * perColour, (ci + 1) * perColour).concat(sharedTail);
+    }
+    if (perColour) { photos = photosFor(0); }
     var slides = photos.map(function (src) {
       return '<img src="' + src + '" alt="' + product.name + '">';
     }).join("");
@@ -312,6 +320,27 @@
       });
     });
 
+    function setGallery(list) {
+      photos = list;
+      trackEl.innerHTML = list.map(function (src) { return '<img src="' + src + '" alt="' + product.name + '">'; }).join("");
+      document.querySelector(".gallery-dots").innerHTML = list.map(function (_, i) {
+        return '<button class="dot' + (i === 0 ? " active" : "") + '" data-dot="' + i + '" type="button" aria-label="Photo ' + (i + 1) + '"></button>';
+      }).join("");
+      dotEls = document.querySelectorAll(".gallery-dots .dot");
+      dotEls.forEach(function (d) {
+        d.addEventListener("click", function () { goTo(parseInt(d.getAttribute("data-dot"), 10)); });
+      });
+      slideCount = list.length;
+      lbTrack.innerHTML = list.map(function (src) { return '<img src="' + src + '" alt="' + product.name + '">'; }).join("");
+      trackEl.querySelectorAll("img").forEach(function (img) {
+        img.addEventListener("click", function () {
+          if (Date.now() - lastSwipeAt < 350) { return; }
+          openLightbox();
+        });
+      });
+      goTo(0);
+    }
+
     document.getElementById("sgToggle").addEventListener("click", function () {
       var g = document.getElementById("sizeGuide");
       g.hidden = !g.hidden;
@@ -330,8 +359,7 @@
     wireOptions("colourRow", "data-colour", function (v) {
       selectedColour = v;
       document.getElementById("colourName").textContent = v;
-      var step = (product.colourShots ? product.colourShots : (photos.length === product.colours.length * 2 ? 2 : 0));
-      if (step) { goTo(product.colours.indexOf(v) * step); }
+      if (perColour) { setGallery(photosFor(product.colours.indexOf(v))); }
     });
     var firstColour = document.querySelector("#colourRow .option-btn");
     if (firstColour) { firstColour.click(); }
