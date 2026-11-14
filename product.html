@@ -29,6 +29,8 @@
 .gallery-wrap { max-width: 100% !important; overflow: hidden !important; }
 #sizeRow { max-width: 100% !important; }
 #sizeRow .option-btn { min-width: 0 !important; }
+.colour-swatch { width: 44px !important; height: 44px !important; min-width: 44px !important; border-radius: 50% !important; padding: 0 !important; font-size: 0 !important; color: transparent !important; border: 1px solid #d8d8d8 !important; background-size: cover !important; background-position: center !important; flex: 0 0 auto !important; }
+.colour-swatch.selected { color: transparent !important; border-color: #111 !important; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #111 !important; }
 #addBtn { background: #111 !important; color: #fff !important; }
 .gtrack img { cursor: zoom-in; }
 .g-counter { position: absolute; right: 10px; bottom: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; z-index: 3; }
@@ -148,6 +150,16 @@
       return '<button class="dot' + (i === 0 ? " active" : "") + '" data-dot="' + i + '" type="button" aria-label="Photo ' + (i + 1) + '"></button>';
     }).join("");
 
+    var COLOURMAP = { black: "#161616", white: "#ffffff", grey: "#9aa0a3", gray: "#9aa0a3", navy: "#1f2a5a", cream: "#f3e9d2", "sky blue": "#87ceeb", blue: "#2f7fe0", green: "#2e7d32", orange: "#f58220", purple: "#6a3fa0", yellow: "#ffd91a", red: "#d8232a", pink: "#f6a8c1", brown: "#7a4a21", tan: "#d2b48c", olive: "#7a7d46", "black/white": "linear-gradient(90deg,#161616 50%,#ffffff 50%)", striped: "repeating-linear-gradient(90deg,#ffffff 0 6px,#161616 6px 8px,#d8232a 8px 10px)" };
+    function swatchFor(c, ci) {
+      var key = c.toLowerCase();
+      if (COLOURMAP[key]) { return COLOURMAP[key]; }
+      var words = ["sky blue", "black", "white", "grey", "gray", "navy", "cream", "blue", "green", "orange", "purple", "yellow", "red", "pink", "brown", "tan", "olive"];
+      for (var wi = 0; wi < words.length; wi++) { if (key.indexOf(words[wi]) > -1) { return COLOURMAP[words[wi]]; } }
+      var src = perColour ? photosFor(ci)[0] : product.image;
+      return 'url("' + src + '") center/cover no-repeat';
+    }
+
     var genderLabel = product.gender === "women" ? "Women" : "Men";
     var shortDesc = product.details ? product.details.split(". ")[0] + "." : "";
 
@@ -211,7 +223,7 @@
           '<div class="price' + (product.oldPrice ? " sale" : "") + '">' + formatPrice(product.price) + old + offTag + "</div>" +
           '<div class="pay-line">Pay securely with Paystack - or order on WhatsApp</div>' +
           '<span class="field-label">Colour: <span class="sel-name" id="colourName"></span></span><div class="option-row" id="colourRow">' +
-            product.colours.map(function (c) { return '<button class="option-btn" data-colour="' + c + '">' + c + "</button>"; }).join("") +
+            product.colours.map(function (c, ci) { return '<button class="option-btn colour-swatch" data-colour="' + c + '" title="' + c + '" style="background:' + swatchFor(c, ci) + '">' + c + "</button>"; }).join("") +
           "</div>" +
           '<div class="label-row"><span class="field-label">Size</span><button class="sg-link" id="sgToggle" type="button">View Size Guide</button></div><div class="option-row" id="sizeRow">' +
             product.sizes.map(function (s) { return '<button class="option-btn" data-size="' + s + '">' + s + "</button>"; }).join("") +
