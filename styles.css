@@ -412,3 +412,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .sc-name { font-size: 13px; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sc-price { font-size: 13px; font-weight: 700; margin-top: 2px; }
 .sc-price .old-price { font-weight: 400; }
+
+/* Anchor landings clear the sticky header + glide like Fashion Nova
+   (owner: Shop Now landed with the first row hidden under the header, 2026-11-17) */
+html { scroll-behavior: smooth; }
+#shop, #sale { scroll-margin-top: 76px; }
