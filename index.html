@@ -95,8 +95,16 @@
   var currentFilter = "men";
   var currentQuery = "";
 
+  // Rotate the cloths: shuffle the display order on every page load so the
+  // same cloths do not always show in the same place (owner request, 2026-11-17).
+  var displayOrder = PRODUCTS.slice();
+  for (var i = displayOrder.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = displayOrder[i]; displayOrder[i] = displayOrder[j]; displayOrder[j] = tmp;
+  }
+
   function applyShop() {
-    var list = PRODUCTS.filter(function (p) {
+    var list = displayOrder.filter(function (p) {
       var genderOk = currentFilter === "all" || p.gender === currentFilter;
       var q = currentQuery.trim().toLowerCase();
       var queryOk = !q || (p.name + " " + p.category + " " + p.gender).toLowerCase().indexOf(q) !== -1;
@@ -153,7 +161,7 @@
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
-  renderGrid(document.getElementById("saleGrid"), PRODUCTS.filter(function (p) { return p.oldPrice && p.gender === "men"; }));
+  renderGrid(document.getElementById("saleGrid"), displayOrder.filter(function (p) { return p.oldPrice && p.gender === "men"; }));
 
   applyShop();
 </script>
