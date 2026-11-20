@@ -7,11 +7,9 @@ const CONFIG = {
   tagline: "Royalty needs no crown.",
   currency: "NGN",
 
-  // WhatsApp contact number.
-  // *** PLACEHOLDER — replace "2348000000000" with the real business
-  // WhatsApp number (country code + number, digits only, no + or spaces)
-  // before launch. The floating WhatsApp button on every page uses it. ***
-  whatsappNumber: "2348000000000", // PLACEHOLDER — replace me
+  // WhatsApp contact number — the owner's Nigerian number (set 2026-11-20).
+  // Checkout orders and the floating WhatsApp button on every page come here.
+  whatsappNumber: "2347069329725",
   get whatsappLink() {
     return "https://wa.me/" + this.whatsappNumber;
   },

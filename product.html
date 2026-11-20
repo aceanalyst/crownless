@@ -82,7 +82,7 @@
   <div class="footer-inner">
     <div>
       <h3>CROWN<span>LESS</span></h3>
-      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for men and women in Nigeria. Pay securely with Paystack. Delivery across Nigeria.</p>
+      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for men and women in Nigeria. Order on WhatsApp — we confirm, then you pay. Delivery across Nigeria.</p>
     </div>
     <div>
       <strong>Shop</strong>
@@ -243,7 +243,7 @@
         '<div class="product-info">' +
           '<div class="name-row"><h1>' + product.name + '</h1><button class="wish-btn" id="wishBtn" type="button" aria-label="Save to favorites">♡</button></div>' +
           '<div class="price' + (product.oldPrice ? " sale" : "") + '">' + formatPrice(product.price) + old + offTag + "</div>" +
-          '<div class="pay-line">Pay securely with Paystack - or order on WhatsApp</div>' +
+          '<div class="pay-line">Order on WhatsApp — we confirm your order, then you pay</div>' +
           '<span class="field-label">Colour: <span class="sel-name" id="colourName"></span></span><div class="option-row" id="colourRow">' +
             product.colours.map(function (c, ci) { return '<button class="option-btn colour-swatch" data-colour="' + c + '" title="' + c + '" style="background:' + swatchFor(c, ci) + '">' + c + "</button>"; }).join("") +
           "</div>" +
@@ -255,7 +255,7 @@
           '<div class="toast" id="toast">Added to cart ✔ &nbsp;<a href="cart.html" style="text-decoration:underline; font-weight:800;">View cart &amp; checkout</a></div>' +
           '<div class="accordion open"><button class="acc-head" type="button">Product Details <span class="chev">▾</span></button><div class="acc-body">' + (product.details || "") + "</div></div>" +
           '<div class="accordion"><button class="acc-head" type="button">Material &amp; Care <span class="chev">▾</span></button><div class="acc-body">' + (product.material || "") + "</div></div>" +
-          '<div class="accordion"><button class="acc-head" type="button">Delivery &amp; Returns <span class="chev">▾</span></button><div class="acc-body">Delivery across Nigeria in 2-5 working days; the delivery fee is calculated at checkout. Pay securely with Paystack, or message us on WhatsApp to order. Wrong size? Chat with us on WhatsApp within 7 days of delivery for an exchange.</div></div>' +
+          '<div class="accordion"><button class="acc-head" type="button">Delivery &amp; Returns <span class="chev">▾</span></button><div class="acc-body">Delivery across Nigeria in 2-5 working days; the delivery fee is calculated at checkout. Orders go through WhatsApp — send your order, we confirm it, then you pay. Wrong size? Chat with us on WhatsApp within 7 days of delivery for an exchange.</div></div>' +
         "</div>" +
       "</div>" +
       '<div class="rel-section"><h2 class="section-title">Style It With</h2><div class="hscroll style-row">' + styleWith.map(styleCard).join("") + "</div></div>" +

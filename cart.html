@@ -59,9 +59,9 @@
       </select>
 
       <div style="margin-top:22px;">
-        <button class="btn btn-block" type="submit">Pay with Paystack</button>
+        <button class="btn btn-block" type="submit">Place Order on WhatsApp</button>
       </div>
-      <p class="delivery-note" style="margin-top:10px;">Secure payment by Paystack · Cards, bank transfer &amp; USSD · Delivery within Nigeria only</p>
+      <p class="delivery-note" style="margin-top:10px;">Your order opens in WhatsApp with everything filled in — just press send. We confirm your order, then you pay. Delivery within Nigeria only.</p>
     </form>
   </section>
 </main>
@@ -70,7 +70,7 @@
   <div class="footer-inner">
     <div>
       <h3>CROWN<span>LESS</span></h3>
-      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for men and women in Nigeria. Pay securely with Paystack. Delivery across Nigeria.</p>
+      <p style="opacity:.85; font-size:.92rem; margin-top:8px;">Bold fashion for men and women in Nigeria. Order on WhatsApp — we confirm, then you pay. Delivery across Nigeria.</p>
     </div>
     <div>
       <strong>Shop</strong>
@@ -167,26 +167,35 @@
 
   renderCart();
 
-  // ---------- Paystack (stub) ----------
-  // Checkout goes live once the Paystack TEST public key is pasted into
-  // config.js as CONFIG.PAYSTACK_PUBLIC_KEY. Until then this stub only
-  // explains that — it never pretends a payment happened.
-  function payWithPaystack() {
-    if (!getCart().length) {
+  // ---------- WhatsApp checkout ----------
+  // The owner is not using Paystack yet (2026-11-20): submitting the form
+  // opens WhatsApp to the store number with the full order prefilled —
+  // items, total and the delivery details from the form.
+  function sendOrderWhatsApp() {
+    var cart = getCart();
+    if (!cart.length) {
       alert("Your cart is empty — add something first.");
       return;
     }
-    if (!CONFIG.PAYSTACK_PUBLIC_KEY || CONFIG.PAYSTACK_PUBLIC_KEY === "pk_test_REPLACE_ME") {
-      alert("Paystack test mode is not connected yet.\n\nCheckout goes live once the Paystack test public key is pasted into config.js. No payment has been taken.");
-      return;
-    }
-    // Key present: the real PaystackPop checkout handler gets wired here.
-    alert("Paystack test key detected — live checkout wiring is the next build step. No payment has been taken.");
+    var lines = ["Hello CROWNLESS, I want to order:", ""];
+    cart.forEach(function (item) {
+      var p = findProduct(item.id);
+      if (!p) return;
+      lines.push("• " + p.name + " — Size " + item.size + ", Colour: " + item.colour + " x" + item.qty + " — " + formatPrice(p.price * item.qty));
+    });
+    lines.push("");
+    lines.push("Total: " + formatPrice(cartSubtotal()) + " (delivery fee to be confirmed)");
+    lines.push("");
+    lines.push("Name: " + document.getElementById("fullName").value.trim());
+    lines.push("Phone: " + document.getElementById("phone").value.trim());
+    lines.push("Email: " + document.getElementById("email").value.trim());
+    lines.push("Address: " + document.getElementById("street").value.trim() + ", " + document.getElementById("city").value.trim() + ", " + document.getElementById("state").value);
+    window.open(CONFIG.whatsappLink + "?text=" + encodeURIComponent(lines.join("\n")), "_blank");
   }
 
   document.getElementById("checkoutForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    payWithPaystack();
+    sendOrderWhatsApp();
   });
 </script>
 </body>
