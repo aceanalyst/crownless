@@ -161,11 +161,11 @@
       return '<button class="dot' + (i === 0 ? " active" : "") + '" data-dot="' + i + '" type="button" aria-label="Photo ' + (i + 1) + '"></button>';
     }).join("");
 
-    var COLOURMAP = { black: "#161616", white: "#ffffff", grey: "#9aa0a3", gray: "#9aa0a3", navy: "#1f2a5a", cream: "#f3e9d2", "sky blue": "#87ceeb", blue: "#2f7fe0", green: "#2e7d32", orange: "#f58220", purple: "#6a3fa0", yellow: "#ffd91a", red: "#d8232a", pink: "#f6a8c1", brown: "#7a4a21", tan: "#d2b48c", olive: "#7a7d46", "black/white": "linear-gradient(90deg,#161616 50%,#ffffff 50%)", striped: "repeating-linear-gradient(90deg,#ffffff 0 6px,#161616 6px 8px,#d8232a 8px 10px)" };
+    var COLOURMAP = { black: "#161616", white: "#ffffff", grey: "#9aa0a3", gray: "#9aa0a3", navy: "#1f2a5a", cream: "#f3e9d2", "sky blue": "#87ceeb", blue: "#2f7fe0", green: "#2e7d32", orange: "#f58220", purple: "#6a3fa0", yellow: "#ffd91a", red: "#d8232a", pink: "#f6a8c1", brown: "#7a4a21", tan: "#d2b48c", olive: "#7a7d46", wine: "#722f37", "black/white": "linear-gradient(90deg,#161616 50%,#ffffff 50%)", striped: "repeating-linear-gradient(90deg,#ffffff 0 6px,#161616 6px 8px,#d8232a 8px 10px)" };
     function swatchFor(c, ci) {
       var key = c.toLowerCase();
       if (COLOURMAP[key]) { return COLOURMAP[key]; }
-      var words = ["sky blue", "black", "white", "grey", "gray", "navy", "cream", "blue", "green", "orange", "purple", "yellow", "red", "pink", "brown", "tan", "olive"];
+      var words = ["sky blue", "black", "white", "grey", "gray", "navy", "cream", "blue", "green", "orange", "purple", "yellow", "wine", "red", "pink", "brown", "tan", "olive"];
       for (var wi = 0; wi < words.length; wi++) { if (key.indexOf(words[wi]) > -1) { return COLOURMAP[words[wi]]; } }
       var src = perColour ? photosFor(ci)[0] : product.image;
       return 'url("' + src + '") center/cover no-repeat';
@@ -177,7 +177,7 @@
     var others = PRODUCTS.filter(function (x) { return x.id !== product.id && x.gender === product.gender; });
     var sameCat = others.filter(function (x) { return x.category === product.category; });
     var diffCat = others.filter(function (x) { return x.category !== product.category; });
-    var similar = sameCat.concat(diffCat).slice(0, 8);
+    var similar = [];
     var TOPCATS = ["Tees", "Polos", "Hoodies", "Shirts", "Jackets"];
     var BOTCATS = ["Pants", "Jeans", "Shorts", "Skirts"];
     function isTop(x) { return TOPCATS.indexOf(x.category) >= 0; }
@@ -199,7 +199,12 @@
       }
     }
     styleWith = styleWith.slice(0, 4);
-    var like = sameCat.concat(diffCat).slice(0, 4);
+    var usedIds = {};
+    usedIds[product.id] = true;
+    styleWith.forEach(function (x) { usedIds[x.id] = true; });
+    similar = sameCat.concat(diffCat).filter(function (x) { return !usedIds[x.id]; }).slice(0, 8);
+    similar.forEach(function (x) { usedIds[x.id] = true; });
+    var like = sameCat.concat(diffCat).filter(function (x) { return !usedIds[x.id]; }).slice(0, 4);
 
     function miniCard(x) {
       return '<a class="mini-card" href="product.html?id=' + x.id + '"><img src="' + x.image + '" alt="' + x.name + '">' +
