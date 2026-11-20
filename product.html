@@ -14,6 +14,7 @@
 .product-info .price { font-size: 19px !important; font-weight: 700 !important; margin-top: 6px !important; }
 .product-info .price.sale { color: #d6001c !important; }
 .off-tag { color: #d6001c !important; font-size: 13px !important; font-weight: 700 !important; }
+.off-pill { position: absolute; top: 10px; left: 10px; background: #b02a21; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; letter-spacing: .3px; z-index: 3; }
 .field-label { text-transform: none !important; letter-spacing: 0 !important; font-size: 14px !important; font-weight: 700 !important; display: block !important; margin: 14px 0 7px !important; }
 .sel-name { font-weight: 500 !important; }
 .label-row { display: flex !important; align-items: baseline !important; justify-content: space-between !important; }
@@ -146,6 +147,7 @@
       : "";
     var offPct = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
     var offTag = offPct ? ' <span class="off-tag">' + offPct + "% OFF</span>" : "";
+    var offPill = offPct ? '<span class="off-pill">' + offPct + "% OFF</span>" : "";
 
     var photos = [product.image].concat(product.gallery || []);
     var allPhotos = photos;
@@ -232,7 +234,7 @@
 
     root.innerHTML =
       '<div class="product-layout">' +
-        '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery"><div class="gtrack" id="gtrack">' + slides + "</div></div>" + badge +
+        '<div class="product-photo"><div class="gallery-wrap"><div class="gallery" id="gallery"><div class="gtrack" id="gtrack">' + slides + "</div></div>" + badge + offPill +
           '<button class="g-arrow prev" id="gPrev" type="button" aria-label="Previous photo">‹</button>' +
           '<button class="g-arrow next" id="gNext" type="button" aria-label="Next photo">›</button></div>' +
           '<div class="gallery-dots">' + dots + "</div>" + '<span class="g-counter" id="gCounter"></span></div>' +
