@@ -82,12 +82,14 @@ function productCardHTML(p) {
   const old = p.oldPrice
     ? ' <span class="old-price">' + formatPrice(p.oldPrice) + "</span>"
     : "";
+  const off = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+  const pill = off ? '<span class="off-pill">' + off + "% OFF</span>" : "";
   return (
     '<a class="card" href="product.html?id=' + p.id + '">' +
-      '<span class="card-img-wrap"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy">' + badge + "</span>" +
+      '<span class="card-img-wrap"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy">' + badge + pill + "</span>" +
       '<span class="card-body"><span class="card-name">' + p.name + "</span>" +
       '<span class="card-meta">' + p.category + "</span>" +
-      '<span class="card-price">' + formatPrice(p.price) + old + "</span></span>" +
+      '<span class="card-price' + (off ? " on-sale" : "") + '">' + formatPrice(p.price) + old + "</span></span>" +
     "</a>"
   );
 }
