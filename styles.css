@@ -146,8 +146,8 @@ button { font: inherit; cursor: pointer; }
 .cart-line .line-meta { color: var(--grey-dark); font-size: 0.85rem; }
 .cart-line .line-price { font-weight: 900; text-align: right; }
 .qty-mini { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; }
-.qty-mini button { width: 28px; height: 28px; border: 1px solid #ccc; background: var(--white); border-radius: 6px; font-weight: 800; }
-.remove-btn { background: none; border: none; color: var(--accent); font-size: 0.85rem; font-weight: 700; padding: 0; }
+.qty-mini button:not(.remove-btn) { width: 28px; height: 28px; border: 1px solid #ccc; background: var(--white); border-radius: 6px; font-weight: 800; }
+.remove-btn { width: auto; height: auto; background: none; border: none; color: var(--accent); font-size: 0.85rem; font-weight: 700; padding: 6px 4px; margin-left: 6px; }
 .totals { padding: 18px 0; }
 .totals .row { display: flex; justify-content: space-between; padding: 5px 0; }
 .totals .grand { font-size: 1.2rem; font-weight: 900; border-top: 2px solid var(--black); margin-top: 8px; padding-top: 12px; }
