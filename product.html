@@ -125,6 +125,7 @@
 <script src="products12.js"></script>
 <script src="products13.js"></script>
 <script src="products14.js"></script>
+<script src="products15.js"></script>
 <script src="app.js"></script>
 <script>
   var root = document.getElementById("productRoot");
@@ -248,7 +249,7 @@
           '<div class="label-row"><span class="field-label">Size</span><button class="sg-link" id="sgToggle" type="button">View Size Guide</button></div><div class="option-row" id="sizeRow">' +
             product.sizes.map(function (s) { return '<button class="option-btn" data-size="' + s + '">' + s + "</button>"; }).join("") +
           "</div>" +
-          '<div class="size-guide" id="sizeGuide" hidden><table><tr><th>Size</th><th>Chest</th><th>Length</th></tr><tr><td>M</td><td>38-40 in</td><td>27 in</td></tr><tr><td>L</td><td>40-42 in</td><td>28 in</td></tr><tr><td>XL</td><td>42-44 in</td><td>29 in</td></tr><tr><td>XXL</td><td>44-46 in</td><td>30 in</td></tr></table><p>Measurements in inches. Between sizes? Size up for a relaxed fit.</p></div>' +
+          '<div class="size-guide" id="sizeGuide" hidden>' + (product.gender === "women" ? '<table><tr><th>UK Size</th><th>Bust</th><th>Waist</th><th>Hips</th></tr><tr><td>6</td><td>32 in</td><td>25 in</td><td>35 in</td></tr><tr><td>8</td><td>34 in</td><td>27 in</td><td>37 in</td></tr><tr><td>10</td><td>36 in</td><td>29 in</td><td>39 in</td></tr><tr><td>12</td><td>38 in</td><td>31 in</td><td>41 in</td></tr><tr><td>14</td><td>40 in</td><td>33 in</td><td>43 in</td></tr><tr><td>16</td><td>42 in</td><td>35 in</td><td>45 in</td></tr><tr><td>18</td><td>44 in</td><td>37 in</td><td>47 in</td></tr><tr><td>20</td><td>46 in</td><td>39 in</td><td>49 in</td></tr></table><p>Measurements in inches. UK dress sizes.</p>' : '<table><tr><th>Size</th><th>Chest</th><th>Length</th></tr><tr><td>M</td><td>38-40 in</td><td>27 in</td></tr><tr><td>L</td><td>40-42 in</td><td>28 in</td></tr><tr><td>XL</td><td>42-44 in</td><td>29 in</td></tr><tr><td>XXL</td><td>44-46 in</td><td>30 in</td></tr></table><p>Measurements in inches. Between sizes? Size up for a relaxed fit.</p>') + '</div>' +
           '<div style="margin-top:20px;"><button class="btn btn-block" id="addBtn" type="button">Add to Bag</button></div>' +
           '<div class="toast" id="toast">Added to cart ✔ &nbsp;<a href="cart.html" style="text-decoration:underline; font-weight:800;">View cart &amp; checkout</a></div>' +
           '<div class="accordion open"><button class="acc-head" type="button">Product Details <span class="chev">▾</span></button><div class="acc-body">' + (product.details || "") + "</div></div>" +
